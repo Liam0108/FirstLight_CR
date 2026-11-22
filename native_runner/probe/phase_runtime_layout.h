@@ -13,42 +13,53 @@
 namespace cr_phase_runtime {
 
 constexpr const char *kSchema = "native-phase-runtime.v1";
-constexpr const char *kExpectedLibgSha256 = "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783";
-constexpr const char *kExpectedLibgBuildId = "90e6f351f0dec4a28b494c3812d2629fd45d5a83";
+constexpr const char *kExpectedLibgSha256 = "0b580222e5a3502cf153bb5e6297ec32d2b154b605b777c74873dd75722e4eaa";
+constexpr const char *kExpectedLibgBuildId = "179ac4bd38c205bc5041d372a79f1c2f929b1c30";
 
 // Runtime component identities.
-constexpr std::uintptr_t kAttackComponentVtableOffset = 0x018a1dd0;
-constexpr std::uintptr_t kMovementComponentVtableOffset = 0x018a1f38;
-constexpr std::uintptr_t kBuffComponentVtableOffset = 0x018a1d58;
-constexpr std::uintptr_t kAttackComponentTypeGetterOffset = 0x00f5c878;
-constexpr std::uintptr_t kMovementComponentTypeGetterOffset = 0x00f6939c;
-constexpr std::uintptr_t kBuffComponentTypeGetterOffset = 0x00f59aac;
+constexpr std::uintptr_t kAttackComponentVtableOffset = 0x01a558b0;
+constexpr std::uintptr_t kMovementComponentVtableOffset = 0x01a55a18;
+constexpr std::uintptr_t kBuffComponentVtableOffset = 0x01a55838;
+constexpr std::uintptr_t kAttackComponentTypeGetterOffset = 0x010ba8c4;
+constexpr std::uintptr_t kMovementComponentTypeGetterOffset = 0x010c70f4;
+constexpr std::uintptr_t kBuffComponentTypeGetterOffset = 0x010b79c4;
 
 // Hookable exact-build functions.
-constexpr std::uintptr_t kActionDispatchOffset = 0x00f23110;
-constexpr std::uintptr_t kAttackExecuteOffset = 0x00f5f100;
-constexpr std::uintptr_t kTargetSetOffset = 0x00f5c894;
-constexpr std::uintptr_t kBuffAddedOffset = 0x00f5a2d4;
-constexpr std::uintptr_t kMovementScaleOffset = 0x00f5b3c8;
-constexpr std::uintptr_t kAttackScaleOffset = 0x00f5b4ac;
-constexpr std::uintptr_t kEffectiveMovementSpeedOffset = 0x00f1d004;
-constexpr std::uintptr_t kMovementDeltaOffset = 0x00f68808;
+constexpr std::uintptr_t kActionDispatchOffset = 0x01080784;
+constexpr std::uintptr_t kAttackExecuteOffset = 0x010bcddc;
+constexpr std::uintptr_t kTargetSetOffset = 0x010ba8e0;
+constexpr std::uintptr_t kBuffAddedOffset = 0x010b820c;
+constexpr std::uintptr_t kMovementScaleOffset = 0x010b9300;
+constexpr std::uintptr_t kAttackScaleOffset = 0x010b93e4;
+constexpr std::uintptr_t kEffectiveMovementSpeedOffset = 0x010796f4;
+constexpr std::uintptr_t kMovementDeltaOffset = 0x010c6560;
 
 // Caller return addresses used to disambiguate generic functions.
-constexpr std::uintptr_t kAttackStartReturnOffset = 0x00f61a7c;
-constexpr std::uintptr_t kClassicChargeActionReturnOffset = 0x00f68958;
-constexpr std::uintptr_t kPrimaryAttackReturnOffset = 0x00f61d10;
-constexpr std::uintptr_t kAdditionalAttackReturnOffset = 0x00f61e34;
-constexpr std::uintptr_t kAttackScaleReturnOffset = 0x00f62030;
-constexpr std::uintptr_t kEffectiveSpeedEffectReturnOffset = 0x00f1d218;
-constexpr std::uintptr_t kMovementTickScaleReturnOffset = 0x00f66290;
-constexpr std::uintptr_t kDeployScaleReturnOffset = 0x00f1abc0;
+constexpr std::uintptr_t kAttackStartReturnOffset = 0x010bf698;
+constexpr std::uintptr_t kClassicChargeActionReturnOffset = 0x010c66b0;
+constexpr std::uintptr_t kPrimaryAttackReturnOffset = 0x010bf944;
+constexpr std::uintptr_t kAdditionalAttackReturnOffset = 0x010bfab4;
+constexpr std::uintptr_t kAttackScaleReturnOffset = 0x010bfcec;
+constexpr std::uintptr_t kEffectiveSpeedEffectReturnOffset = 0x01079908;
+constexpr std::uintptr_t kMovementTickScaleReturnOffset = 0x010c3fe8;
+constexpr std::uintptr_t kDeployScaleReturnOffset = 0x01077548;
 
 constexpr std::uint8_t kActionDispatchPrologue[16] = {
-    0x42, 0x03, 0x00, 0xb4, 0xfd, 0x7b, 0xbd, 0xa9, 0xf6, 0x57, 0x01, 0xa9, 0xf4, 0x4f, 0x02, 0xa9,
+    0xfd, 0x7b, 0xbd, 0xa9, 0xf6, 0x57, 0x01, 0xa9, 0xf4, 0x4f, 0x02, 0xa9, 0xfd, 0x03, 0x00, 0x91,
+};
+// 16.635.1 split the single 15.535.13 dispatch wrapper into an identical
+// 3-argument copy and a 4-argument variant (used by ActionWait). All three
+// share the same stack prologue with no PC-relative instruction in it.
+constexpr std::uintptr_t kActionDispatchAltOffset = 0x01080544;
+constexpr std::uintptr_t kActionDispatchContextOffset = 0x010808f4;
+constexpr std::uint8_t kActionDispatchAltPrologue[16] = {
+    0xfd, 0x7b, 0xbd, 0xa9, 0xf6, 0x57, 0x01, 0xa9, 0xf4, 0x4f, 0x02, 0xa9, 0xfd, 0x03, 0x00, 0x91,
+};
+constexpr std::uint8_t kActionDispatchContextPrologue[16] = {
+    0xfd, 0x7b, 0xbc, 0xa9, 0xf7, 0x0b, 0x00, 0xf9, 0xf6, 0x57, 0x02, 0xa9, 0xf4, 0x4f, 0x03, 0xa9,
 };
 constexpr std::uint8_t kAttackExecutePrologue[16] = {
-    0xff, 0x83, 0x05, 0xd1, 0xfd, 0x7b, 0x10, 0xa9, 0xfc, 0x6f, 0x11, 0xa9, 0xfa, 0x67, 0x12, 0xa9,
+    0xff, 0x43, 0x04, 0xd1, 0xfd, 0x7b, 0x0b, 0xa9, 0xfc, 0x6f, 0x0c, 0xa9, 0xfa, 0x67, 0x0d, 0xa9,
 };
 constexpr std::uint8_t kTargetSetPrologue[16] = {
     0xfd, 0x7b, 0xbb, 0xa9, 0xf9, 0x0b, 0x00, 0xf9, 0xf8, 0x5f, 0x02, 0xa9, 0xf6, 0x57, 0x03, 0xa9,

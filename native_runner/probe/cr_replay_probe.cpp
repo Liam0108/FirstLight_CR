@@ -29,6 +29,12 @@
 #include <cstring>
 #include <memory>
 #include <new>
+// Headers that the telemetry .inc files include from inside the anonymous
+// namespace below; they must be seen at global scope first (NDK 27 libc++).
+#include <array>
+#include <initializer_list>
+#include <limits>
+#include <type_traits>
 
 #include "native_touch_interceptor.h"
 #include "probe_json.h"
@@ -53,92 +59,92 @@ const char *g_assets_paths[] = {
     g_user_assets_path,
     "/data/data/nullsroyale.rel.free/update/assets.scdb",
 };
-constexpr std::uintptr_t kReplayJsonSetterOffset = 0x00c8de8c;
-constexpr std::uintptr_t kReplayManagerGetterOffset = 0x00c8c5b8;
-constexpr std::uintptr_t kLibgStringFromUtf8Offset = 0x0138a800;
-constexpr std::uintptr_t kNativeReplayRunnerOffset = 0x00c87ecc;
-constexpr std::uintptr_t kReplayBattleControllerLifecycleOffset = 0x00c87620;
-constexpr std::uintptr_t kReplayBattleControllerFullUpdateOffset = 0x00c88bbc;
-constexpr std::uintptr_t kReplayBattleControllerClockOffset = 0x00c890bc;
-constexpr std::uintptr_t kReplayBattleControllerAlternateUpdateOffset = 0x00c899e0;
-constexpr std::uintptr_t kReplayClockGlobalPauseGuardOffset = 0x00cb6694;
-constexpr std::uintptr_t kGameAppGetterOffset = 0x00755818;
-constexpr std::uintptr_t kGameAppPauseGuardOffset = 0x0075c628;
-constexpr std::uintptr_t kGameAppPendingEventSetterOffset = 0x0075a6dc;
-constexpr std::size_t kGameAppPendingEventFlagsOffset = 0x1b8;
-constexpr std::size_t kGameAppPendingEventOffset = 0x1bc;
+constexpr std::uintptr_t kReplayJsonSetterOffset = 0x00da1f90;
+constexpr std::uintptr_t kReplayManagerGetterOffset = 0x00da0658;
+constexpr std::uintptr_t kLibgStringFromUtf8Offset = 0x0153de30;
+constexpr std::uintptr_t kNativeReplayRunnerOffset = 0x00d9ae04;
+constexpr std::uintptr_t kReplayBattleControllerLifecycleOffset = 0x00d9a2cc;
+constexpr std::uintptr_t kReplayBattleControllerFullUpdateOffset = 0x00d9bba0;
+constexpr std::uintptr_t kReplayBattleControllerClockOffset = 0x00d9c278;
+constexpr std::uintptr_t kReplayBattleControllerAlternateUpdateOffset = 0x00d9cc24;
+constexpr std::uintptr_t kReplayClockGlobalPauseGuardOffset = 0x00dcda40;
+constexpr std::uintptr_t kGameAppGetterOffset = 0x007c2808;
+constexpr std::uintptr_t kGameAppPauseGuardOffset = 0x007c99ac;
+constexpr std::uintptr_t kGameAppPendingEventSetterOffset = 0x007c79d8;
+constexpr std::size_t kGameAppPendingEventFlagsOffset = 0x1c0;
+constexpr std::size_t kGameAppPendingEventOffset = 0x1c4;
 constexpr std::size_t kReplayBattleControllerStateOffset = 0x30;
 constexpr std::size_t kReplayBattleControllerAccumulatorOffset = 0x44;
 constexpr std::size_t kReplayBattleControllerSpeedOffset = 0x74;
-constexpr std::size_t kReplayBattleControllerSuspendedOffset = 0x18c;
-constexpr std::uintptr_t kGameStateLoadOffset = 0x01061b1c;
-constexpr std::uintptr_t kGameStateStepOffset = 0x010620a4;
-constexpr std::uintptr_t kGameStateTickOffset = 0x01062bc0;
-constexpr std::uintptr_t kGameStateContextAOffset = 0x0080031c;
-constexpr std::uintptr_t kGameStateContextBOffset = 0x00eaf1c8;
-constexpr std::uintptr_t kGameStateNewOffset = 0x017e4b20;
-constexpr std::uintptr_t kGameStateDeleteOffset = 0x017e4b50;
-constexpr std::uintptr_t kGameStateConstructorOffset = 0x01060ba8;
-constexpr std::uintptr_t kGameStateSetupOffset = 0x01060f84;
-constexpr std::uintptr_t kGameStateDestroyOffset = 0x010610b0;
-constexpr std::uintptr_t kGameStateBaseDestroyOffset = 0x00988844;
-constexpr std::uintptr_t kJsonParseOffset = 0x0121a648;
-constexpr std::uintptr_t kLogicCommandParseOffset = 0x00d2fe78;
-constexpr std::uintptr_t kLogicCommandAppendOffset = 0x00d2eef0;
-constexpr std::uintptr_t kLogicCommandQueueConstructorOffset = 0x00d2eddc;
-constexpr std::uintptr_t kLogicCommandQueueDestroyOffset = 0x00d2ee40;
+constexpr std::size_t kReplayBattleControllerSuspendedOffset = 0x17c;
+constexpr std::uintptr_t kGameStateLoadOffset = 0x011d2dc4;
+constexpr std::uintptr_t kGameStateStepOffset = 0x011d3174;
+constexpr std::uintptr_t kGameStateTickOffset = 0x011d32f0;
+constexpr std::uintptr_t kGameStateContextAOffset = 0x00878c00;
+constexpr std::uintptr_t kGameStateContextBOffset = 0x00ff253c;
+constexpr std::uintptr_t kGameStateNewOffset = 0x0198db50;
+constexpr std::uintptr_t kGameStateDeleteOffset = 0x0198db60;
+constexpr std::uintptr_t kGameStateConstructorOffset = 0x011d1e68;
+constexpr std::uintptr_t kGameStateSetupOffset = 0x011d225c;
+constexpr std::uintptr_t kGameStateDestroyOffset = 0x011d2388;
+constexpr std::uintptr_t kGameStateBaseDestroyOffset = 0x009fe0b0;
+constexpr std::uintptr_t kJsonParseOffset = 0x0139f838;
+constexpr std::uintptr_t kLogicCommandParseOffset = 0x00e553e4;
+constexpr std::uintptr_t kLogicCommandAppendOffset = 0x00e5443c;
+constexpr std::uintptr_t kLogicCommandQueueConstructorOffset = 0x00e54328;
+constexpr std::uintptr_t kLogicCommandQueueDestroyOffset = 0x00e5438c;
 // The stock UI resolves the active ReplayBattleController through c85c28 and
 // finishes every player command through c893d0.  That second function owns the
 // validation, command tick stamping and ClientInput network-message enqueue.
 // Calling it on the game thread preserves the stock outbound authority while
 // bypassing only GameApp::nOnTouchEvent and its multi-tick gesture state.
-constexpr std::uintptr_t kStateSnapshotOffset = 0x00ad9a50;
-constexpr std::uintptr_t kStateSnapshotDeleteOffset = 0x0105e8bc;
-constexpr std::uintptr_t kByteStreamResetReadOffset = 0x0121220c;
-constexpr std::uintptr_t kByteStreamFlipReadOffset = 0x0121221c;
-constexpr std::uintptr_t kByteStreamResetChecksumOffset = 0x012141bc;
-constexpr std::uintptr_t kGameStateDeserializeHeaderOffset = 0x010634c0;
-constexpr std::uintptr_t kGameStateDeserializeBodyOffset = 0x0106379c;
-constexpr std::uintptr_t kCardSelectionBuildOffset = 0x00e2d1bc;
-constexpr std::uintptr_t kJsonMemberFindOffset = 0x00d0e100;
-constexpr std::uintptr_t kLogicDataByGlobalIdOffset = 0x00dd1340;
-constexpr std::uintptr_t kLocationTileMapEnsureOffset = 0x00857608;
-constexpr std::uintptr_t kLocationTileMapLookupOffset = 0x00df8508;
-constexpr std::uintptr_t kEglSwapBuffersGotOffset = 0x018e9d88;
+constexpr std::uintptr_t kStateSnapshotOffset = 0x00bb3ac4;
+constexpr std::uintptr_t kStateSnapshotDeleteOffset = 0x00e4b0ac;
+constexpr std::uintptr_t kByteStreamResetReadOffset = 0x01397568;
+constexpr std::uintptr_t kByteStreamFlipReadOffset = 0x01397578;
+constexpr std::uintptr_t kByteStreamResetChecksumOffset = 0x01399518;
+constexpr std::uintptr_t kGameStateDeserializeHeaderOffset = 0x011d45c8;
+constexpr std::uintptr_t kGameStateDeserializeBodyOffset = 0x011d4b14;
+constexpr std::uintptr_t kCardSelectionBuildOffset = 0x00f671a0;
+constexpr std::uintptr_t kJsonMemberFindOffset = 0x00c40d68;
+constexpr std::uintptr_t kLogicDataByGlobalIdOffset = 0x00efe42c;
+constexpr std::uintptr_t kLocationTileMapEnsureOffset = 0x008ae750;
+constexpr std::uintptr_t kLocationTileMapLookupOffset = 0x00f2edec;
+constexpr std::uintptr_t kEglSwapBuffersGotOffset = 0x01a9d6b0;
 // libg calls its AArch64 SHA256 self-integrity initializer exactly once from
 // this site. Google's x86_64 libndk_translation advertises the guest feature
 // but aborts on SHA256H/SHA256H2/SHA256SU instructions. On translated Android
 // only, skip that unused-result initializer so the stock battle engine can
 // finish booting. The call remains untouched on real AArch64 devices.
-constexpr std::uintptr_t kTranslatedSha256InitializerCallOffset = 0x00c8ece0;
-constexpr std::uint32_t kTranslatedSha256InitializerCall = 0x97eba894u;
+constexpr std::uintptr_t kTranslatedSha256InitializerCallOffset = 0x00da35b0;
+constexpr std::uint32_t kTranslatedSha256InitializerCall = 0x97e90b53u;
 constexpr std::uint32_t kAarch64Nop = 0xd503201fu;
-constexpr std::uintptr_t kGameStateContextRootSlotOffset = 0x019ad878;
-constexpr std::uintptr_t kBuffAssetVtableOffset = 0x01882500;
-constexpr std::uintptr_t kBuffAssetClassNameGetterOffset = 0x00d961f4;
-constexpr std::uintptr_t kLogicDataTypeGetterOffset = 0x00dc2560;
-constexpr std::uintptr_t kProjectileVtableOffset = 0x0189cc28;
-constexpr std::uintptr_t kProjectileKindGetterOffset = 0x00f27a58;
-constexpr std::uintptr_t kCharacterVtableOffset = 0x0189c4e8;
+constexpr std::uintptr_t kGameStateContextRootSlotOffset = 0x01b61d00;
+constexpr std::uintptr_t kBuffAssetVtableOffset = 0x01a349f0;
+constexpr std::uintptr_t kBuffAssetClassNameGetterOffset = 0x00e9eafc;
+constexpr std::uintptr_t kLogicDataTypeGetterOffset = 0x00eeee10;
+constexpr std::uintptr_t kProjectileVtableOffset = 0x01a50348;
+constexpr std::uintptr_t kProjectileKindGetterOffset = 0x0108530c;
+constexpr std::uintptr_t kCharacterVtableOffset = 0x01a4fbb8;
 constexpr std::size_t kProjectileDragStageOffset = 0x189;
-constexpr std::size_t kProjectileDragBackSpeedOffset = 0x1b0;
-constexpr std::uintptr_t kChampionControllerVtableOffset = 0x0189e4e8;
-constexpr std::uintptr_t kChampionActionDataVtableOffset = 0x0188cb28;
-constexpr std::uintptr_t kCharacterAbilityDataVtableOffset = 0x018823f0;
-constexpr std::size_t kCharacterAbilityExtraSpawnBaseOffset = 0x104;
-constexpr std::size_t kCharacterAbilityExtraSpawnLimitOffset = 0x108;
-constexpr std::size_t kCharacterExtraSpawnAccumulatorOffset = 0x1f0;
-constexpr std::uintptr_t kCaptureCharacterActionDataVtableOffset = 0x0188c848;
-constexpr std::uintptr_t kCaptureCharacterRuntimeVtableOffset = 0x0189e2d8;
+constexpr std::size_t kProjectileDragBackSpeedOffset = 0x1e8;
+constexpr std::uintptr_t kChampionControllerVtableOffset = 0x01a51c30;
+constexpr std::uintptr_t kChampionActionDataVtableOffset = 0x01a3fd60;
+constexpr std::uintptr_t kCharacterAbilityDataVtableOffset = 0x01a348e0;
+constexpr std::size_t kCharacterAbilityExtraSpawnBaseOffset = 0x10c;
+constexpr std::size_t kCharacterAbilityExtraSpawnLimitOffset = 0x110;
+constexpr std::size_t kCharacterExtraSpawnAccumulatorOffset = 0x1f8;
+constexpr std::uintptr_t kCaptureCharacterActionDataVtableOffset = 0x01a3fab0;
+constexpr std::uintptr_t kCaptureCharacterRuntimeVtableOffset = 0x01a51a20;
 constexpr std::size_t kCaptureRuntimeMaximumTargets = 160;
 constexpr std::int32_t kCaptureRuntimeMaximumVectorCapacity = 1024;
 constexpr std::int32_t kCaptureRuntimeMaximumConfiguredLimit = 1000;
-constexpr std::uintptr_t kThresholdRelocationActionDataVtableOffset = 0x0188ef18;
-constexpr std::uintptr_t kThresholdRelocationRuntimeVtableOffset = 0x0189f6f0;
+constexpr std::uintptr_t kThresholdRelocationActionDataVtableOffset = 0x01a41da0;
+constexpr std::uintptr_t kThresholdRelocationRuntimeVtableOffset = 0x01a52fc0;
 constexpr std::int32_t kThresholdRelocationMaximumThresholds = 16;
 constexpr std::int32_t kThresholdRelocationMaximumVectorCapacity = 64;
-constexpr std::uintptr_t kPeriodicAttackModifierActionDataVtableOffset = 0x0188eac8;
-constexpr std::uintptr_t kPeriodicAttackModifierRuntimeVtableOffset = 0x0189f3d8;
+constexpr std::uintptr_t kPeriodicAttackModifierActionDataVtableOffset = 0x01a41998;
+constexpr std::uintptr_t kPeriodicAttackModifierRuntimeVtableOffset = 0x01a52ca8;
 constexpr const char *kRichTelemetrySchema = "native-rich-telemetry.v3";
 // Raw objectIndex/secondaryIndex remain authoritative engine fields, but they
 // are not a globally unique identity: projectiles can copy their source
@@ -147,33 +153,33 @@ constexpr const char *kRichTelemetrySchema = "native-rich-telemetry.v3";
 // ID instead of falling back to either raw tuple or the compacting vector slot.
 constexpr std::int32_t kNativeObjectIdEntityKeyTag = -2;
 constexpr std::int32_t kUniqueReadyAbilityEntityKeyTag = -3;
-constexpr std::size_t kContentPostProcessReadyOffset = 0x6e8;
+constexpr std::size_t kContentPostProcessReadyOffset = 0x720;
 constexpr std::uint8_t kReplayJsonSetterPrologue[16] = {
     0xfd, 0x7b, 0xbe, 0xa9, 0xf4, 0x4f, 0x01, 0xa9, 0xfd, 0x03, 0x00, 0x91, 0xf4, 0x03, 0x01, 0xaa,
 };
 constexpr std::uint8_t kNativeReplayRunnerPrologue[16] = {
-    0xff, 0x03, 0x02, 0xd1, 0xfd, 0x7b, 0x02, 0xa9, 0xfb, 0x1b, 0x00, 0xf9, 0xfa, 0x67, 0x04, 0xa9,
+    0xff, 0x83, 0x03, 0xd1, 0xfd, 0x7b, 0x08, 0xa9, 0xfc, 0x6f, 0x09, 0xa9, 0xfa, 0x67, 0x0a, 0xa9,
 };
 constexpr std::uint8_t kReplayBattleControllerLifecyclePrologue[16] = {
-    0xff, 0x83, 0x03, 0xd1, 0xfd, 0x7b, 0x0a, 0xa9, 0xf8, 0x5f, 0x0b, 0xa9, 0xf6, 0x57, 0x0c, 0xa9,
+    0xff, 0x43, 0x04, 0xd1, 0xe8, 0x63, 0x00, 0xfd, 0xfd, 0xfb, 0x0c, 0xa9, 0xfc, 0x6f, 0x00, 0xf9,
 };
 constexpr std::uint8_t kReplayBattleControllerFullUpdatePrologue[16] = {
-    0xff, 0x03, 0x02, 0xd1, 0xeb, 0x2b, 0x03, 0x6d, 0xe9, 0x23, 0x04, 0x6d, 0xfd, 0x7b, 0x05, 0xa9,
+    0xff, 0x83, 0x02, 0xd1, 0xeb, 0x2b, 0x04, 0x6d, 0xe9, 0x23, 0x05, 0x6d, 0xfd, 0x7b, 0x06, 0xa9,
 };
 constexpr std::uint8_t kReplayBattleControllerClockPrologue[16] = {
-    0x08, 0x30, 0x46, 0x39, 0x48, 0x00, 0x00, 0x34, 0xc0, 0x03, 0x5f, 0xd6, 0xff, 0x83, 0x03, 0xd1,
+    0x08, 0xf0, 0x45, 0x39, 0x48, 0x00, 0x00, 0x34, 0xc0, 0x03, 0x5f, 0xd6, 0xff, 0x83, 0x03, 0xd1,
 };
 constexpr std::uint8_t kReplayBattleControllerAlternateUpdatePrologue[16] = {
     0xe8, 0x0f, 0x1e, 0xfc, 0xfd, 0xfb, 0x00, 0xa9, 0xf3, 0x0f, 0x00, 0xf9, 0xfd, 0x23, 0x00, 0x91,
 };
 constexpr std::uint8_t kGameAppPendingEventSetterPrologue[16] = {
-    0x08, 0xc0, 0x41, 0xb9, 0x09, 0xbc, 0x41, 0xb9, 0x1f, 0x01, 0x02, 0x6b, 0x08, 0xe0, 0x46, 0x39,
+    0xff, 0x03, 0x03, 0xd1, 0xfd, 0x7b, 0x08, 0xa9, 0xf8, 0x5f, 0x09, 0xa9, 0xf6, 0x57, 0x0a, 0xa9,
 };
 constexpr std::uint8_t kGameStateLoadPrologue[16] = {
-    0xff, 0x83, 0x01, 0xd1, 0xfd, 0x7b, 0x01, 0xa9, 0xf9, 0x13, 0x00, 0xf9, 0xf8, 0x5f, 0x03, 0xa9,
+    0xfd, 0x7b, 0xbc, 0xa9, 0xf8, 0x5f, 0x01, 0xa9, 0xf6, 0x57, 0x02, 0xa9, 0xf4, 0x4f, 0x03, 0xa9,
 };
 constexpr std::uint8_t kGameStateStepPrologue[16] = {
-    0xfd, 0x7b, 0xbc, 0xa9, 0xf8, 0x5f, 0x01, 0xa9, 0xf6, 0x57, 0x02, 0xa9, 0xf4, 0x4f, 0x03, 0xa9,
+    0xfd, 0x7b, 0xbd, 0xa9, 0xf5, 0x0b, 0x00, 0xf9, 0xf4, 0x4f, 0x02, 0xa9, 0xfd, 0x03, 0x00, 0x91,
 };
 
 using ReplayJsonSetter = void (*)(void *, void *);
@@ -1514,7 +1520,7 @@ void process_native_render_request_on_frame_thread() {
              static_cast<unsigned long long>(sequence), replay_manager, json_size,
              static_cast<long>(syscall(__NR_gettid)));
         void *prior_controller = nullptr;
-        std::memcpy(&prior_controller, static_cast<std::uint8_t *>(replay_manager) + 0x20, sizeof(prior_controller));
+        std::memcpy(&prior_controller, static_cast<std::uint8_t *>(replay_manager) + 0x28 /* 16.635.1: controller slot moved 0x20 -> 0x28 */, sizeof(prior_controller));
         void *const known_native_controller = g_native_render_controller.load(std::memory_order_acquire);
         if (prior_controller != nullptr && prior_controller != known_native_controller) {
           // At the offline login/error screen this slot can contain
@@ -1524,7 +1530,7 @@ void process_native_render_request_on_frame_thread() {
           // normal idle/null state so it creates the real controller
           // instead of dereferencing that unrelated screen object.
           void *empty = nullptr;
-          std::memcpy(static_cast<std::uint8_t *>(replay_manager) + 0x20, &empty, sizeof(empty));
+          std::memcpy(static_cast<std::uint8_t *>(replay_manager) + 0x28 /* 16.635.1: controller slot moved 0x20 -> 0x28 */, &empty, sizeof(empty));
           LOGI("cleared incompatible offline replay slot: replayManager=%p prior=%p", replay_manager, prior_controller);
         }
         g_native_render_submitted_sequence.store(sequence, std::memory_order_release);
@@ -1665,7 +1671,7 @@ bool parse_logic_command(void *manager, const char *command_json, void **logic_c
   }
 
   void *command_context = nullptr;
-  std::memcpy(&command_context, static_cast<std::uint8_t *>(manager) + 0x208, sizeof(command_context));
+  std::memcpy(&command_context, static_cast<std::uint8_t *>(manager) + 0x210, sizeof(command_context));
   void *logic_command = nullptr;
   if (command_context != nullptr) {
     cr_call_logic_command_parse(json_object, command_context, &logic_command, g_logic_command_parse);
@@ -1692,7 +1698,7 @@ bool inject_logic_command(void *manager, const char *command_json) {
     remember_enqueued_mirror_descriptor(manager, command_json);
   }
   void *command_context = nullptr;
-  std::memcpy(&command_context, static_cast<std::uint8_t *>(manager) + 0x208, sizeof(command_context));
+  std::memcpy(&command_context, static_cast<std::uint8_t *>(manager) + 0x210, sizeof(command_context));
   LOGI("injected command parse=%s manager=%p queue=%p context=%p", succeeded ? "success" : "failure", manager,
        command_queue, command_context);
   return succeeded;
@@ -2733,8 +2739,10 @@ bool read_player_state(void *world, std::int32_t owner, PlayerStateView *result)
   result->elixir_raw = read_object_field<std::int32_t>(result->player, 0x2f8);
   result->crowns_raw = 0;
   return read_native_vector(result->deck, 0x20, kMaxDeckCards, &result->deck_slots) &&
-         read_native_vector(result->player, 0x220, kMaxHandCards, &result->hand) &&
-         read_native_vector(result->player, 0x230, kMaxCycleCards, &result->cycle);
+         // 16.635.1: hand {ptr,cap 4,count 4} moved 0x220 -> 0x210 and the cycle
+         // queue {ptr,cap 8,count 4} moved 0x230 -> 0x220 (verified on a live battle).
+         read_native_vector(result->player, 0x210, kMaxHandCards, &result->hand) &&
+         read_native_vector(result->player, 0x220, kMaxCycleCards, &result->cycle);
 }
 
 struct CardStateView {
@@ -3535,11 +3543,11 @@ NativeCaptureRuntimeReadStatus read_native_capture_runtime_state(const void *obj
   std::int32_t active_count = 0;
   std::int32_t completed_count = 0;
   std::int32_t elapsed_count = 0;
-  if (!read_capture_i32_vector(capture_runtime, 0x60, 0x68, 0x6c, kCaptureRuntimeMaximumVectorCapacity, &active_ids,
+  if (!read_capture_i32_vector(capture_runtime, 0x80, 0x88, 0x8c, kCaptureRuntimeMaximumVectorCapacity, &active_ids,
                                &active_count) ||
-      !read_capture_i32_vector(capture_runtime, 0x70, 0x78, 0x7c, kCaptureRuntimeMaximumVectorCapacity, &completed_ids,
+      !read_capture_i32_vector(capture_runtime, 0x60, 0x68, 0x6c, kCaptureRuntimeMaximumVectorCapacity, &completed_ids,
                                &completed_count) ||
-      !read_capture_i32_vector(capture_runtime, 0x80, 0x88, 0x8c, kCaptureRuntimeMaximumVectorCapacity, &elapsed_values,
+      !read_capture_i32_vector(capture_runtime, 0x70, 0x78, 0x7c, kCaptureRuntimeMaximumVectorCapacity, &elapsed_values,
                                &elapsed_count) ||
       active_count != elapsed_count || completed_count > active_count || active_count > capture_limit ||
       active_count > static_cast<std::int32_t>(kCaptureRuntimeMaximumTargets)) {
@@ -3867,7 +3875,7 @@ bool read_champion_controller(const void *owner_root, std::int32_t owner, std::i
   }
   result->selected_character_global_id = read_object_field<std::int32_t>(selected_character, 0x40);
   const void *const ability_data = read_object_field<const void *>(selected_character, 0x710);
-  if (!process_range_is_readable(ability_data, 0xb8) ||
+  if (!process_range_is_readable(ability_data, 0xbc) ||
       read_object_field<const void *>(ability_data, 0x00) !=
           reinterpret_cast<const void *>(g_libg_base + kCharacterAbilityDataVtableOffset) ||
       !read_bounded_libg_string_utf8(static_cast<const std::uint8_t *>(ability_data) + 0x28, result->action_data_name,
@@ -3879,8 +3887,8 @@ bool read_champion_controller(const void *owner_root, std::int32_t owner, std::i
   result->configured_cooldown_ms = read_object_field<std::int32_t>(controller, 0x7c);
   result->remaining_charges_raw = read_object_field<std::int32_t>(controller, 0x80);
   result->button_state = read_object_field<std::int32_t>(controller, 0x98);
-  result->max_charges = read_object_field<std::int32_t>(ability_data, 0xac);
-  const std::int32_t configured_from_data = read_object_field<std::int32_t>(ability_data, 0xb4);
+  result->max_charges = read_object_field<std::int32_t>(ability_data, 0xb0);
+  const std::int32_t configured_from_data = read_object_field<std::int32_t>(ability_data, 0xb8);
   if (result->configured_cooldown_ms < 0 || result->remaining_cooldown_ms < 0 ||
       result->remaining_cooldown_ms > result->configured_cooldown_ms ||
       configured_from_data != result->configured_cooldown_ms ||
@@ -3963,7 +3971,7 @@ bool champion_controller_is_exact_absent(const void *owner_root, const void *con
   const void *const ability_data = read_object_field<const void *>(selected_character, 0x710);
   char ability_name[129] = {};
   std::size_t ability_name_size = 0;
-  if (!process_range_is_readable(ability_data, 0xb8) ||
+  if (!process_range_is_readable(ability_data, 0xbc) ||
       read_object_field<const void *>(ability_data, 0x00) !=
           reinterpret_cast<const void *>(g_libg_base + kCharacterAbilityDataVtableOffset) ||
       !read_bounded_libg_string_utf8(static_cast<const std::uint8_t *>(ability_data) + 0x28, ability_name,
@@ -3975,8 +3983,8 @@ bool champion_controller_is_exact_absent(const void *owner_root, const void *con
   const std::int32_t remaining_cooldown = read_object_field<std::int32_t>(controller, 0x78);
   const std::int32_t configured_cooldown = read_object_field<std::int32_t>(controller, 0x7c);
   const std::int32_t remaining_charges = read_object_field<std::int32_t>(controller, 0x80);
-  const std::int32_t max_charges = read_object_field<std::int32_t>(ability_data, 0xac);
-  const std::int32_t configured_from_data = read_object_field<std::int32_t>(ability_data, 0xb4);
+  const std::int32_t max_charges = read_object_field<std::int32_t>(ability_data, 0xb0);
+  const std::int32_t configured_from_data = read_object_field<std::int32_t>(ability_data, 0xb8);
   // An untouched absent controller uses -1 as its charge sentinel. After a
   // carrier has consumed its ability and left the arena, the stock runtime
   // preserves the last bounded charge count instead. Both are exact absent
@@ -4000,7 +4008,7 @@ bool read_evolution_slot(const PlayerStateView &player, const std::int32_t *prog
   }
   *result = {};
   CardStateView card;
-  if (!read_card_state(player, deck_slot, false, &card) || !process_range_is_readable(card.card_data, 0x230)) {
+  if (!read_card_state(player, deck_slot, false, &card) || !process_range_is_readable(card.card_data, 0x268)) {
     return false;
   }
   result->deck_slot = deck_slot;
@@ -4012,7 +4020,7 @@ bool read_evolution_slot(const PlayerStateView &player, const std::int32_t *prog
   }
 
   NativeVectorView candidates;
-  if (!read_native_vector(card.card_data, 0x220, kMaxEvolutionCandidates, &candidates) ||
+  if (!read_native_vector(card.card_data, 0x258, kMaxEvolutionCandidates, &candidates) ||
       (candidates.count != 0 &&
        !process_range_is_readable(candidates.data, static_cast<std::size_t>(candidates.count) * sizeof(void *)))) {
     return false;
@@ -4021,10 +4029,10 @@ bool read_evolution_slot(const PlayerStateView &player, const std::int32_t *prog
   const void *evolution_form = nullptr;
   for (std::int32_t index = 0; index < candidates.count; ++index) {
     const void *const candidate = candidate_items[index];
-    if (!process_range_is_readable(candidate, 0x2b0)) {
+    if (!process_range_is_readable(candidate, 0x2e8)) {
       return false;
     }
-    const void *const form_metadata = read_object_field<const void *>(candidate, 0x2a8);
+    const void *const form_metadata = read_object_field<const void *>(candidate, 0x2e0);
     if (!process_range_is_readable(form_metadata, 0x68)) {
       return false;
     }
@@ -4043,7 +4051,7 @@ bool read_evolution_slot(const PlayerStateView &player, const std::int32_t *prog
 
   result->evolvable = true;
   result->evolution_form_global_id = read_object_field<std::int32_t>(evolution_form, 0x40);
-  result->cycle_required = read_object_field<std::int32_t>(evolution_form, 0x284);
+  result->cycle_required = read_object_field<std::int32_t>(evolution_form, 0x2bc);
   if (result->evolution_form_global_id <= 0 || result->cycle_required <= 0 ||
       result->progress > result->cycle_required) {
     return false;
@@ -5836,7 +5844,7 @@ void remember_enqueued_mirror_descriptor(void *manager, const char *command_json
   unsigned int account_high = 0, effective_card = 0, packed = 0;
   unsigned long long account_low = 0;
   const int fields = std::sscanf(command_json,
-      "{\"ct\":86,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,\"idLo\":%llu,"
+      "{\"ct\":153,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,\"idLo\":%llu,"
       "\"px\":%d,\"py\":%d,\"sid\":-1,\"sel\":{\"os\":%u,\"pd\":%u}}}%n",
       &command_tick, &command_tick2, &account_high, &account_low, &px, &py,
       &effective_card, &packed, &consumed_chars);
@@ -5882,7 +5890,7 @@ bool format_deploy_command(const DeployRequest &request, std::int32_t command_ti
     return false;
   }
   const int written = std::snprintf(command_json, command_json_size,
-                                    "{\"ct\":86,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,\"idLo\":%llu,"
+                                    "{\"ct\":153,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,\"idLo\":%llu,"
                                     "\"px\":%d,\"py\":%d,\"sid\":-1,\"sel\":{\"os\":%u,\"pd\":%u}}}",
                                     command_tick, command_tick + static_cast<std::int32_t>(kLiveCommandAgeTicks),
                                     request.player_id_high, static_cast<unsigned long long>(request.player_id),
@@ -5897,7 +5905,7 @@ bool format_ability_command(const AbilityRequest &request, std::int32_t command_
     return false;
   }
   const int written = std::snprintf(command_json, command_json_size,
-                                    "{\"ct\":2,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,"
+                                    "{\"ct\":189,\"c\":{\"t\":%d,\"t2\":%d,\"idHi\":%u,"
                                     "\"idLo\":%u,\"cgid\":%d}}",
                                     command_tick, command_tick + 1, request.player_id_high, request.player_id_low,
                                     request.champion_game_id);
@@ -6774,6 +6782,33 @@ void handle_control_command(int socket_fd, const char *command) {
     return;
   }
 
+  if (std::strcmp(command, "debug-player-dump") == 0) {
+    // Port diagnostics: raw qwords of both LogicPlayer objects (+0x200..+0x340)
+    // so layout changes between game builds can be checked on a live battle.
+    pthread_mutex_lock(&g_control_mutex);
+    void *const manager =
+        g_runner_mode.load(std::memory_order_acquire) == static_cast<std::int32_t>(RunnerMode::NativeRender)
+            ? g_native_render_manager.load(std::memory_order_acquire)
+            : g_controlled_manager;
+    char dump[8192];
+    std::size_t used = static_cast<std::size_t>(std::snprintf(dump, sizeof(dump), "{\"ok\":true,\"players\":["));
+    void *const world = manager == nullptr ? nullptr : read_object_field<void *>(manager, 0xa8);
+    for (std::int32_t owner = 0; owner < kPlayerCount && world != nullptr; ++owner) {
+      void *const player = read_object_field<void *>(world, 0xe0 + owner * sizeof(void *));
+      used += static_cast<std::size_t>(std::snprintf(dump + used, sizeof(dump) - used, "%s{\"owner\":%d,\"q\":[",
+                                                     owner ? "," : "", owner));
+      for (std::size_t offset = 0x200; player != nullptr && offset < 0x340 && used + 64 < sizeof(dump); offset += 8) {
+        used += static_cast<std::size_t>(
+            std::snprintf(dump + used, sizeof(dump) - used, "%s\"%zx:%016llx\"", offset == 0x200 ? "" : ",", offset,
+                          static_cast<unsigned long long>(read_object_field<std::uint64_t>(player, offset))));
+      }
+      used += static_cast<std::size_t>(std::snprintf(dump + used, sizeof(dump) - used, "]}"));
+    }
+    pthread_mutex_unlock(&g_control_mutex);
+    std::snprintf(dump + used, sizeof(dump) - used, "]}");
+    send_control_response(socket_fd, dump);
+    return;
+  }
   if (std::strcmp(command, "observe") == 0) {
     std::unique_ptr<char[]> observation_response(new (std::nothrow) char[kOrdinaryObservationResponseBytes]());
     if (observation_response == nullptr) {
@@ -7566,7 +7601,11 @@ void game_app_pending_event_setter_hook(void *game_app, std::int32_t event, std:
   if (original == nullptr) {
     return;
   }
-  if (g_offline_control_session_active.load(std::memory_order_acquire) && (event == 2 || event == 3)) {
+  // The offline engine never reaches a server (the VM is firewalled). 16.635.1
+  // enqueues the connection-failure popup (event 2/3) during cold boot, before a
+  // control session exists, so suppress it unconditionally instead of only while
+  // a session is active; otherwise the "连接错误" dialog stays on screen.
+  if (event == 2 || event == 3) {
     const std::uint64_t count =
         g_native_offline_connection_errors_suppressed.fetch_add(1, std::memory_order_relaxed) + 1;
     if (count <= 3) {
@@ -7608,7 +7647,9 @@ void replay_battle_controller_lifecycle_hook(void *controller) {
   if (state != prior_state) {
     LOGI("native ReplayBattleController lifecycle controller=%p state=%d prior=%d", controller, state, prior_state);
   }
-  if (state != 8) {
+  // 16.635.1 inserted one ReplayBattleController lifecycle state: the active
+  // state observed live is 9 (5 -> 6 -> 7 -> 9); 15.535.13 used 8.
+  if (state != 9) {
     return;
   }
 
@@ -7699,7 +7740,7 @@ void replay_battle_controller_clock_hook(void *controller, float delta_seconds) 
       const std::int32_t global_pause = global_pause_guard();
       void *const game_app = game_app_getter();
       const std::int32_t game_app_pause = game_app == nullptr ? -1 : game_app_pause_guard(game_app);
-      const std::int32_t game_app_state = game_app == nullptr ? -1 : read_object_field<std::int32_t>(game_app, 0x1bc);
+      const std::int32_t game_app_state = game_app == nullptr ? -1 : read_object_field<std::int32_t>(game_app, 0x1c4);
       LOGI("native controller clock #%llu controller=%p state=%d suspended=%u dt=%.6f accumulator=%.6f speed=%.2f "
            "manager=%p world=%p worldState=%d globalPause=%d gameApp=%p gameAppPause=%d gameAppState=%d",
            static_cast<unsigned long long>(call), controller,

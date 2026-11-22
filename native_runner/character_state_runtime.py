@@ -14,7 +14,7 @@ from .runtime_schema import RuntimeSchema, same_entity_identity, wire_fields
 
 CHARACTER_STATE_RUNTIME_SCHEMA = "native-character-state-runtime.v1"
 CHARACTER_STATE_RUNTIME_CAPACITY = 2_048
-CHARACTER_STATE_SETTER_HOOK_OFFSET = 0xF18654
+CHARACTER_STATE_SETTER_HOOK_OFFSET = 0x1075D64
 CHARACTER_STATE_CAPABILITY_SOURCE = "allowlisted-native-character-state-hook-ring"
 CHARACTER_STATE_CAPABILITY_VALIDATION = "sha-build-id-prologue-abi-kind5-card-identity-committed-state"
 CHARACTER_STATE_MINIMUM = 0

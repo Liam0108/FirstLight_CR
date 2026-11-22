@@ -22,7 +22,7 @@ from .local_config import setting
 
 DATA_ROOT = PACKAGE_ROOT / "data" / "competitive"
 GENERATED_DATA_ROOT = Path(setting("CR_COMPETITIVE_DATA_ROOT", str(DATA_ROOT)))
-MANIFEST_SHA256 = "699c0c77cc5d2ec9a475ec0d10875f9e38710af9fc5472cc3431276384c89b78"
+MANIFEST_SHA256 = "e5a0c727b1c3c6f13ec867573f73ebf7b4886c8d3e52a69eb52f425c9df8edbd"
 _verified_files: ContextVar[set[tuple[Path, str]] | None] = ContextVar("competitive_verified_files", default=None)
 
 

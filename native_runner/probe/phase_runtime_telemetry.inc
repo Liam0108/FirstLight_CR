@@ -152,6 +152,9 @@ using PhaseRemainingTowerAggroObserver = void (*)(const void *, const void *, co
 using PhaseRemainingBuffAddedObserver = void (*)(const void *, const void *);
 
 PhaseActionDispatch g_original_phase_action_dispatch = nullptr;
+PhaseActionDispatch g_original_phase_action_dispatch_alt = nullptr;
+using PhaseActionDispatchContext = void (*)(void *, void *, void *, void *);
+PhaseActionDispatchContext g_original_phase_action_dispatch_context = nullptr;
 PhaseAttackExecute g_original_phase_attack_execute = nullptr;
 PhaseTargetSet g_original_phase_target_set = nullptr;
 PhaseBuffAdded g_original_phase_buff_added = nullptr;
@@ -580,19 +583,49 @@ bool read_native_phase_snapshot(const void *object, std::uint64_t generation, st
   return true;
 }
 
+void phase_action_dispatch_after(void *owner, const void *caller_address);
+
 void phase_action_dispatch_hook(void *owner, void *target, void *action) {
-  // The stock function's first instruction is a PC-relative cbz.  The
-  // specialized installer relocates only the following 12-byte stack
-  // prologue, so the null branch must be preserved here.
+  // 16.635.1: the stock prologue is position independent and the null check
+  // lives in the relocated body, but keep the early-out so observers never
+  // see a null action.
   if (action == nullptr) {
     return;
   }
   const void *const caller_address = __builtin_return_address(0);
-  const std::uintptr_t caller = phase_caller_offset(caller_address);
   if (g_phase_remaining_action_observer != nullptr) {
     g_phase_remaining_action_observer(owner, target, action, caller_address);
   }
   g_original_phase_action_dispatch(owner, target, action);
+  phase_action_dispatch_after(owner, caller_address);
+}
+
+void phase_action_dispatch_alt_hook(void *owner, void *target, void *action) {
+  if (action == nullptr) {
+    return;
+  }
+  const void *const caller_address = __builtin_return_address(0);
+  if (g_phase_remaining_action_observer != nullptr) {
+    g_phase_remaining_action_observer(owner, target, action, caller_address);
+  }
+  g_original_phase_action_dispatch_alt(owner, target, action);
+  phase_action_dispatch_after(owner, caller_address);
+}
+
+void phase_action_dispatch_context_hook(void *owner, void *target, void *action, void *context_argument) {
+  if (action == nullptr) {
+    return;
+  }
+  const void *const caller_address = __builtin_return_address(0);
+  if (g_phase_remaining_action_observer != nullptr) {
+    g_phase_remaining_action_observer(owner, target, action, caller_address);
+  }
+  g_original_phase_action_dispatch_context(owner, target, action, context_argument);
+  phase_action_dispatch_after(owner, caller_address);
+}
+
+void phase_action_dispatch_after(void *owner, const void *caller_address) {
+  const std::uintptr_t caller = phase_caller_offset(caller_address);
   if (caller != cr_phase_runtime::kAttackStartReturnOffset &&
       caller != cr_phase_runtime::kClassicChargeActionReturnOffset) {
     return;
@@ -1034,29 +1067,24 @@ bool install_phase_action_dispatch_hook(std::uintptr_t libg_base) {
   (void)libg_base;
   return false;
 #else
-  auto *const target = reinterpret_cast<std::uint8_t *>(libg_base + cr_phase_runtime::kActionDispatchOffset);
-  if (std::memcmp(target, cr_phase_runtime::kActionDispatchPrologue, 16) != 0) {
-    return false;
-  }
-  // f23110 begins `cbz x2,f23178`; blindly copying that instruction would
-  // branch relative to the trampoline.  Preserve the null branch in the
-  // replacement and relocate only target+4..+16, then jump to target+16.
-  void *const trampoline = mmap(nullptr, 32, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-  if (trampoline == MAP_FAILED) {
-    return false;
-  }
-  std::memcpy(trampoline, target + 4, 12);
-  emit_absolute_jump(static_cast<std::uint8_t *>(trampoline) + 12, target + 16);
-  __builtin___clear_cache(static_cast<char *>(trampoline), static_cast<char *>(trampoline) + 32);
-  if (!make_page_writable(target, PROT_READ | PROT_WRITE | PROT_EXEC)) {
-    munmap(trampoline, 32);
-    return false;
-  }
-  g_original_phase_action_dispatch = reinterpret_cast<PhaseActionDispatch>(trampoline);
-  emit_absolute_jump(target, reinterpret_cast<const void *>(&phase_action_dispatch_hook));
-  __builtin___clear_cache(reinterpret_cast<char *>(target), reinterpret_cast<char *>(target + 16));
-  make_page_writable(target, PROT_READ | PROT_EXEC);
-  return true;
+  // 16.635.1: three dispatch entry points, all with a position-independent
+  // 16-byte stack prologue, so the generic relocating installer applies.
+  bool installed = install_inline_hook(libg_base, cr_phase_runtime::kActionDispatchOffset,
+                                       cr_phase_runtime::kActionDispatchPrologue,
+                                       reinterpret_cast<const void *>(&phase_action_dispatch_hook),
+                                       reinterpret_cast<void **>(&g_original_phase_action_dispatch),
+                                       "phase action dispatch");
+  installed &= install_inline_hook(libg_base, cr_phase_runtime::kActionDispatchAltOffset,
+                                   cr_phase_runtime::kActionDispatchAltPrologue,
+                                   reinterpret_cast<const void *>(&phase_action_dispatch_alt_hook),
+                                   reinterpret_cast<void **>(&g_original_phase_action_dispatch_alt),
+                                   "phase action dispatch (alt)");
+  installed &= install_inline_hook(libg_base, cr_phase_runtime::kActionDispatchContextOffset,
+                                   cr_phase_runtime::kActionDispatchContextPrologue,
+                                   reinterpret_cast<const void *>(&phase_action_dispatch_context_hook),
+                                   reinterpret_cast<void **>(&g_original_phase_action_dispatch_context),
+                                   "phase action dispatch (context)");
+  return installed;
 #endif
 }
 
@@ -1064,6 +1092,12 @@ bool install_phase_runtime_hooks(std::uintptr_t libg_base) {
   const NativeHookSpec hooks[] = {
       native_hook(cr_phase_runtime::kActionDispatchOffset, cr_phase_runtime::kActionDispatchPrologue,
                   &phase_action_dispatch_hook, &g_original_phase_action_dispatch, "phase action dispatch"),
+      native_hook(cr_phase_runtime::kActionDispatchAltOffset, cr_phase_runtime::kActionDispatchAltPrologue,
+                  &phase_action_dispatch_alt_hook, &g_original_phase_action_dispatch_alt,
+                  "phase action dispatch (alt)"),
+      native_hook(cr_phase_runtime::kActionDispatchContextOffset, cr_phase_runtime::kActionDispatchContextPrologue,
+                  &phase_action_dispatch_context_hook, &g_original_phase_action_dispatch_context,
+                  "phase action dispatch (context)"),
       native_hook(cr_phase_runtime::kAttackExecuteOffset, cr_phase_runtime::kAttackExecutePrologue,
                   &phase_attack_execute_hook, &g_original_phase_attack_execute, "phase attack execute"),
       native_hook(cr_phase_runtime::kTargetSetOffset, cr_phase_runtime::kTargetSetPrologue, &phase_target_set_hook,
@@ -1087,7 +1121,7 @@ bool install_phase_runtime_hooks(std::uintptr_t libg_base) {
     return false;
   }
   bool installed = install_phase_action_dispatch_hook(libg_base);
-  installed &= install_native_hook_table(libg_base, hooks + 1, count - 1);
+  installed &= install_native_hook_table(libg_base, hooks + 3, count - 3);
   g_phase_runtime_hooks_installed.store(installed, std::memory_order_release);
   LOGI("exact-build phase hook set installed=%d ring=%zu cache=%zu", installed ? 1 : 0, kPhaseRuntimeRingCapacity,
        kPhaseRuntimeCacheCapacity);

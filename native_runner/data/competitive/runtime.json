@@ -2965,7 +2965,7 @@
   },
   "game_modes_source": "runtime-update/csv_logic/game_modes.csv",
   "game_modes_sha256": "da2e430e23d36d24de7d334c74b7c2dd1d0038a431271f2fb90b31cdb5e117da",
-  "content_version": "15.535.86",
-  "content_manifest_sha1": "41d8df308b22bf144c2a4f2b75f6e6fbf69a0c82",
-  "libg_build_id": "90e6f351f0dec4a28b494c3812d2629fd45d5a83"
+  "content_version": "16.635.93",
+  "content_manifest_sha1": "b54188c6d2744af7c28adcd436be73f120915c44",
+  "libg_build_id": "179ac4bd38c205bc5041d372a79f1c2f929b1c30"
 }

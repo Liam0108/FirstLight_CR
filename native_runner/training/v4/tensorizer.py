@@ -40,6 +40,12 @@ from ...contracts import (
 )
 from ...perspective import PerspectiveTransformV1
 from ..card_features import ENTITY_FORM_TO_BASE_CARD
+# Evolution form card id (spells_evolved row) -> base form archetype key, for live
+# 16.635 evolutions that the frozen catalog does not describe.
+RUNTIME_EVOLUTION_FORM_BASE_KEY: dict[int, str] = {
+    13000075: "ElectroGiant",  # ElectroGiant_EV1
+}
+
 from .catalog import (
     AbilityCatalogV1,
     CardCatalogV1,
@@ -1332,6 +1338,10 @@ class UniversalObservationTensorizerV4:
                 result = self.entity_archetype_catalog.form_vocab_id(evolution.current_form_id)
             else:
                 result = UNKNOWN_ENTITY_ARCHETYPE_VOCAB_ID
+        if result == UNKNOWN_ENTITY_ARCHETYPE_VOCAB_ID and entity.card_id in RUNTIME_EVOLUTION_FORM_BASE_KEY:
+            # Live 16.635 evolution outside the frozen contract (e.g. ElectroGiant_EV1):
+            # its units use a new LogicData table; encode them as the base form archetype.
+            result = self.entity_archetype_catalog.form_vocab_id(RUNTIME_EVOLUTION_FORM_BASE_KEY[entity.card_id])
         if self.reject_unknown_public_semantics and result == UNKNOWN_ENTITY_ARCHETYPE_VOCAB_ID:
             projectile_global_id = (
                 projectile.attributes.get("native_projectile_data_global_id") if projectile is not None else None

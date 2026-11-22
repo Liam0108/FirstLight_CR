@@ -122,7 +122,7 @@ _COMBAT_TERMINAL_REASONS = ("none", "object_impact", "source_lost", "nonimpact_c
 _CARD_FORM_LABELS = ("BasicForm", "EvoForm", "HeroForm", "AutoChessForm", "FormEnd", "FlexSlot")
 _MIRROR_CARD_GLOBAL_ID = 28_000_006
 _COMBAT_CAPACITY = 1024
-_COMBAT_CONSUME_CARD_HOOK_OFFSET = 0xF38A68
+_COMBAT_CONSUME_CARD_HOOK_OFFSET = 0x10959EC
 
 
 class TrainingCaptureError(ValueError):

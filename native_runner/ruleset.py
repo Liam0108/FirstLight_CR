@@ -210,7 +210,7 @@ class RulesetManifestV1(ContractMixin):
         workspace = Path(workspace_root).resolve()
         errors: list[str] = []
         # Engine/resource identities are checked against the live probe; their bytes stay on the device.
-        pinned_sources = _manifest()["source_files"]
+        pinned_sources = live_source_files()
         for group, values in self.files.items():
             for name, expected in values.items():
                 if group in {"engine", "data", "visual"} and pinned_sources.get(name) == expected:
@@ -227,6 +227,27 @@ class RulesetManifestV1(ContractMixin):
         if errors and raise_on_error:
             raise ContractError("ruleset file verification failed:\n" + "\n".join(errors))
         return tuple(errors)
+
+
+def live_source_files() -> dict[str, str]:
+    """Competitive source pins with the live engine identity overlaid.
+
+    The competitive manifest (and the frozen card/model catalogs derived from it)
+    stays byte-identical. The engine binary and the device-downloaded content are
+    taken from supported_engine.json and runtime_update_pins.json, which describe
+    the engine actually installed (16.635.1 port).
+    """
+    files = dict(_manifest()["source_files"])
+    engine = json.loads((PACKAGE_ROOT / "supported_engine.json").read_text(encoding="utf-8"))
+    pins_path = PACKAGE_ROOT / "runtime_update_pins.json"
+    if not pins_path.exists():
+        return files
+    pins = json.loads(pins_path.read_text(encoding="utf-8"))["source_files"]
+    files = {name: digest for name, digest in files.items()
+             if not name.endswith("/libg.so") and not name.startswith("runtime-update/")}
+    files[f"{engine['resource_directory']}/lib/{engine['abi']}/libg.so"] = engine["libg_sha256"]
+    files.update(pins)
+    return files
 
 
 def build_ruleset_manifest(
@@ -289,7 +310,7 @@ def build_ruleset_manifest(
             "ruleset.py",
         )
     ]
-    source_files = _manifest()["source_files"]
+    source_files = live_source_files()
     data = list(DATA_ROOT.glob("*.json*")) + [PACKAGE_ROOT / "data" / "native_match.json"]
     data.extend(Path(item).resolve() for item in data_paths)
     file_groups = {

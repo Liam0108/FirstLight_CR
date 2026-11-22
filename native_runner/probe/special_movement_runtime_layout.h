@@ -14,11 +14,11 @@
 namespace cr_special_movement_runtime {
 
 constexpr const char *kSchema = "native-special-movement-runtime.v1";
-constexpr const char *kExpectedLibgSha256 = "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783";
-constexpr const char *kExpectedLibgBuildId = "90e6f351f0dec4a28b494c3812d2629fd45d5a83";
+constexpr const char *kExpectedLibgSha256 = "0b580222e5a3502cf153bb5e6297ec32d2b154b605b777c74873dd75722e4eaa";
+constexpr const char *kExpectedLibgBuildId = "179ac4bd38c205bc5041d372a79f1c2f929b1c30";
 
-constexpr std::uintptr_t kExecuteOffset = 0x00f609dc;
-constexpr std::uintptr_t kExecuteCallerReturnOffset = 0x00f61bf0;
+constexpr std::uintptr_t kExecuteOffset = 0x010be63c;
+constexpr std::uintptr_t kExecuteCallerReturnOffset = 0x010bf7fc;
 
 constexpr std::uint8_t kExecutePrologue[16] = {
     0xff, 0xc3, 0x01, 0xd1, 0xfd, 0x7b, 0x01, 0xa9, 0xfc, 0x6f, 0x02, 0xa9, 0xfa, 0x67, 0x03, 0xa9,

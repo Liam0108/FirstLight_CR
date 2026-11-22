@@ -74,7 +74,8 @@ remaining_action_spawn_mode1_child_create_entry:
     stp q6, q7, [sp, #0xb0]
     mov x4, x30
     mov x5, x21
-    ldr x6, [sp, #0x138]
+    ldr x6, [sp, #0x148]  // 16.635.1: caller keeps the request *base* at sp+0x78
+    add x6, x6, #0x48     // ...and adds 0x48 at use; rebuild the old request+0x48 value
     bl remaining_action_spawn_mode1_child_create_bridge
     ldp q6, q7, [sp, #0xb0]
     ldp q4, q5, [sp, #0x90]

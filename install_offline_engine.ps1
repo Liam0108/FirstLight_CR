@@ -17,6 +17,9 @@ $startup = Join-Path $PSScriptRoot "native_runner/start_offline.ps1"
 Push-Location $PSScriptRoot
 try {
     $arguments = @("-m", "native_runner.offline_install", "--adb", $adb, "--serial", $serial)
+    # The installer reports progress on stderr; Windows PowerShell 5.1 would turn
+    # that into a terminating error under "Stop". Exit codes are checked below.
+    $ErrorActionPreference = "Continue"
     if ($RestoreBackup) {
         & $python @arguments --restore $RestoreBackup
         if ($LASTEXITCODE -ne 0) { throw "Could not restore the device-local backup: $RestoreBackup" }

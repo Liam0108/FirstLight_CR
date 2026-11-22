@@ -108,7 +108,7 @@ MAX_PHASE_EVENTS = 4096
 MAX_VISIBILITY_EVENTS = 4096
 REMAINING_RUNTIME_SCHEMA = "native-remaining-runtime.v1"
 MAX_REMAINING_EVENTS = 4096
-COMBAT_CONSUME_CARD_HOOK_OFFSET = 0xF38A68
+COMBAT_CONSUME_CARD_HOOK_OFFSET = 0x10959EC
 EntityKey = tuple[int, int, int]
 COMBAT_EVENT_KINDS = frozenset(
     {
@@ -157,31 +157,31 @@ _VALIDATED_HERO_FORM_SOURCE_CARDS = {
     for binding in NORMAL_MODE_HERO_FORM_BINDINGS_BY_FORM_ID.values()
 }
 _REMAINING_EVENT_HOOKS: Mapping[str, frozenset[int]] = {
-    "area_create": frozenset({0xF25B8C}),
-    "area_expire": frozenset({0xF25D90}),
-    "resource_delta": frozenset({0xF3BA4C, 0xF3B3D4}),
-    "tower_aggro_acquire": frozenset({0xF5C894}),
-    "tower_aggro_change": frozenset({0xF5C894}),
-    "tower_aggro_lose": frozenset({0xF5C894}),
-    "tower_activate": frozenset({0xF23110}),
-    "lifetime_spawn": frozenset({0xF25B8C}),
-    "lifetime_despawn": frozenset({0xF25D90}),
-    "transform": frozenset({0xE58638}),
-    "spawn_attach": frozenset({0xF19314}),
-    "area_damage_eligibility": frozenset({0xF1CB90}),
-    "area_relation_parent": frozenset({0xF25B8C}),
-    "area_relation_follow": frozenset({0xF25B8C}),
-    "area_relation_related": frozenset({0xF25B8C}),
+    "area_create": frozenset({0x1083358}),
+    "area_expire": frozenset({0x108355C}),
+    "resource_delta": frozenset({0x1098B8C, 0x1098510}),
+    "tower_aggro_acquire": frozenset({0x10BA8E0}),
+    "tower_aggro_change": frozenset({0x10BA8E0}),
+    "tower_aggro_lose": frozenset({0x10BA8E0}),
+    "tower_activate": frozenset({0x1080784}),
+    "lifetime_spawn": frozenset({0x1083358}),
+    "lifetime_despawn": frozenset({0x108355C}),
+    "transform": frozenset({0xF93844}),
+    "spawn_attach": frozenset({0xFFFFFFFFFFFFFFFF}),
+    "area_damage_eligibility": frozenset({0x1079120}),
+    "area_relation_parent": frozenset({0x1083358}),
+    "area_relation_follow": frozenset({0x1083358}),
+    "area_relation_related": frozenset({0x1083358}),
     # Exact AEO-tick and ActionSpawnToLocation-mode-1 producers.
-    "area_action_spawn": frozenset({0xF143A8, 0xE7B864}),
+    "area_action_spawn": frozenset({0x1070D18, 0xFB7E64}),
 }
 _VISIBILITY_EVENT_HOOKS: Mapping[VisibilityTransitionKind, int] = {
-    VisibilityTransitionKind.BECAME_INVISIBLE: 0xF5A2D4,
-    VisibilityTransitionKind.BECAME_VISIBLE: 0xF5A578,
+    VisibilityTransitionKind.BECAME_INVISIBLE: 0x10B820C,
+    VisibilityTransitionKind.BECAME_VISIBLE: 0x10B84B0,
 }
 _VISIBILITY_EVENT_CALLERS: Mapping[VisibilityTransitionKind, int] = {
-    VisibilityTransitionKind.BECAME_INVISIBLE: 0xF59EAC,
-    VisibilityTransitionKind.BECAME_VISIBLE: 0xF59308,
+    VisibilityTransitionKind.BECAME_INVISIBLE: 0x10B7DD0,
+    VisibilityTransitionKind.BECAME_VISIBLE: 0x10B7220,
 }
 
 
@@ -1344,16 +1344,16 @@ def _combat_events(
 
 
 _PHASE_EVENT_HOOKS = {
-    PhaseHookKind.ATTACK_START: 0xF23110,
-    PhaseHookKind.ATTACK_RELEASE: 0xF5F100,
-    PhaseHookKind.EFFECT_APPLY: 0xF5A2D4,
-    PhaseHookKind.ATTACK_SCALE: 0xF5B4AC,
-    PhaseHookKind.MOVEMENT_SCALE: 0xF5B3C8,
-    PhaseHookKind.EFFECTIVE_MOVEMENT_SPEED: 0xF1D004,
-    PhaseHookKind.MOVEMENT_DELTA: 0xF68808,
-    PhaseHookKind.TARGET_RESET: 0xF5C894,
-    PhaseHookKind.CLASSIC_CHARGE_READY: 0xF23110,
-    PhaseHookKind.DEPLOY_SCALE: 0xF5B3C8,
+    PhaseHookKind.ATTACK_START: 0x1080784,
+    PhaseHookKind.ATTACK_RELEASE: 0x10BCDDC,
+    PhaseHookKind.EFFECT_APPLY: 0x10B820C,
+    PhaseHookKind.ATTACK_SCALE: 0x10B93E4,
+    PhaseHookKind.MOVEMENT_SCALE: 0x10B9300,
+    PhaseHookKind.EFFECTIVE_MOVEMENT_SPEED: 0x10796F4,
+    PhaseHookKind.MOVEMENT_DELTA: 0x10C6560,
+    PhaseHookKind.TARGET_RESET: 0x10BA8E0,
+    PhaseHookKind.CLASSIC_CHARGE_READY: 0x1080784,
+    PhaseHookKind.DEPLOY_SCALE: 0x10B9300,
 }
 
 
@@ -1919,9 +1919,9 @@ def _remaining_runtime_events(
         "completeContext",
     }
     resource_edges = {
-        "periodic": (0xF3BA4C, 0xF1ACD4, 10_000),
-        "death_owner": (0xF3BA4C, 0xF63718, 10_000),
-        "death_opponent": (0xF3B3D4, 0xF63834, 1),
+        "periodic": (0x1098B8C, 0x10775E0, 10_000),
+        "death_owner": (0x1098B8C, 0x10C127C, 10_000),
+        "death_opponent": (0x1098510, 0x10C1398, 1),
     }
     parsed: list[RichRemainingRuntimeEvent] = []
     for index, raw_value in enumerate(raw_events[first_index:], start=first_index):
@@ -2044,18 +2044,18 @@ def _remaining_runtime_events(
         if kind in {"area_create", "area_expire"} and (
             not entity.present
             or object_kind != 3
-            or runtime_vtable_offset != 0x189C2E8
+            or runtime_vtable_offset != 0x1A4F9A0
             or (kind == "area_create" and not committed)
         ):
             raise RichTelemetryMergeError(f"{label} area lifecycle identity is invalid")
         if kind.startswith("area_relation_") and (
-            not entity.present or not target.present or object_kind != 3 or runtime_vtable_offset != 0x189C2E8
+            not entity.present or not target.present or object_kind != 3 or runtime_vtable_offset != 0x1A4F9A0
         ):
             raise RichTelemetryMergeError(f"{label} area relation identity is invalid")
         if kind == "area_action_spawn":
             producer_identity_valid = (
-                object_kind == 3 and source.object_kind == 3 and runtime_vtable_offset == 0x189C2E8
-                if hook_offset == 0xF143A8
+                object_kind == 3 and source.object_kind == 3 and runtime_vtable_offset == 0x1A4F9A0
+                if hook_offset == 0x1070D18
                 else object_kind == source.object_kind and runtime_vtable_offset is not None
             )
             if (
@@ -2079,13 +2079,13 @@ def _remaining_runtime_events(
             }[str(kind)]
             if not entity.present or (before.present, after.present) != expected_presence:
                 raise RichTelemetryMergeError(f"{label} tower aggro edge is invalid")
-        if kind == "tower_activate" and (not entity.present or caller_offset != 0xF58820 or not result):
+        if kind == "tower_activate" and (not entity.present or caller_offset != 0x10B617C or not result):
             raise RichTelemetryMergeError(f"{label} tower activation edge is invalid")
         if kind == "spawn_attach" and (
             not entity.present
             or not source.present
             or not target.present
-            or caller_offset != 0xF18FF4
+            or caller_offset != 0xFFFFFFFFFFFFFFFF
             or not committed
             or optional_ids["configured_data_global_id"] != optional_ids["data_after_global_id"]
             or source.native_object_id == target.native_object_id

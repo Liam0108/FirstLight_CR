@@ -1475,6 +1475,18 @@ extern "C" void remaining_action_spawn_mode1_child_create_bridge(void *object_ma
   if (!exact || !remaining_data_global_id(child_data, &child_data_global_id) ||
       child_data_global_id != source->expected_child_data_global_id) {
 
+    if (source != nullptr) LOGE("mode1 child-create mismatch source=%d active=%d mode=%d omOk=%d genOk=%d epochOk=%d childNotSource=%d "
+         "ambientOk=%d requestSourceOk=%d requestData=%p childData=%p childGid=%d expectedGid=%d ambient=%p "
+         "requestSource=%p sourcePtr=%p",
+         source != nullptr, source != nullptr && source->active, source != nullptr ? source->action_mode : -1,
+         source != nullptr && object_manager == current.object_manager,
+         source != nullptr && source->capture.generation == current.generation,
+         source != nullptr && source->capture.state_epoch == current.state_epoch,
+         source != nullptr && child != source->source_pointer,
+         source != nullptr && ambient_source == source->source_pointer,
+         source != nullptr && request_source == source->source_pointer, request_data, child_data, child_data_global_id,
+         source != nullptr ? source->expected_child_data_global_id : -1, ambient_source, request_source,
+         source != nullptr ? source->source_pointer : nullptr);
     if (source != nullptr) {
       remaining_reject(&source->capture);
     }
@@ -2224,10 +2236,6 @@ bool verify_remaining_runtime_hook_fingerprints(std::uintptr_t libg_base) {
        "death-owner resource caller"},
       {cr_remaining_runtime::kDeathOpponentResourceCallOffset,
        cr_remaining_runtime::kDeathOpponentResourceCallFingerprint, "death-opponent resource caller"},
-      {cr_remaining_runtime::kCharacterSpawnHelperOffset, cr_remaining_runtime::kCharacterSpawnHelperPrologue,
-       "SpawnAttach helper"},
-      {cr_remaining_runtime::kSpawnAttachHelperCallOffset, cr_remaining_runtime::kSpawnAttachHelperCallFingerprint,
-       "SpawnAttach exact caller"},
       {cr_remaining_runtime::kAreaEffectObjectTickOffset, cr_remaining_runtime::kAreaEffectObjectTickPrologue,
        "area-effect tick producer"},
       {cr_remaining_runtime::kAreaDamageEligibleOffset, cr_remaining_runtime::kAreaDamageEligiblePrologue,
@@ -2341,10 +2349,12 @@ bool install_remaining_runtime_hooks(std::uintptr_t libg_base) {
       libg_base, cr_remaining_runtime::kResourceFixedDeltaOffset, cr_remaining_runtime::kResourceFixedDeltaPrologue,
       reinterpret_cast<const void *>(&remaining_resource_fixed_entry),
       reinterpret_cast<void **>(&g_original_remaining_resource_fixed), "remaining resource fixed");
-  installed &= install_inline_hook(libg_base, cr_remaining_runtime::kCharacterSpawnHelperOffset,
-                                   cr_remaining_runtime::kCharacterSpawnHelperPrologue,
-                                   reinterpret_cast<const void *>(&remaining_spawn_helper_entry),
-                                   &g_original_remaining_spawn_helper, "remaining SpawnAttach helper");
+  if constexpr (cr_remaining_runtime::kSpawnAttachHelperAvailable) {
+    installed &= install_inline_hook(libg_base, cr_remaining_runtime::kCharacterSpawnHelperOffset,
+                                     cr_remaining_runtime::kCharacterSpawnHelperPrologue,
+                                     reinterpret_cast<const void *>(&remaining_spawn_helper_entry),
+                                     &g_original_remaining_spawn_helper, "remaining SpawnAttach helper");
+  }
   installed &= install_inline_hook(
       libg_base, cr_remaining_runtime::kAreaEffectObjectTickOffset, cr_remaining_runtime::kAreaEffectObjectTickPrologue,
       reinterpret_cast<const void *>(&remaining_area_effect_tick_hook),

@@ -12,8 +12,8 @@
 #include "probe_json.h"
 
 constexpr const char *kCombatEventSchema = "native-combat-events.v1";
-constexpr const char *kCombatExpectedLibgSha256 = "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783";
-constexpr const char *kCombatExpectedLibgBuildId = "90e6f351f0dec4a28b494c3812d2629fd45d5a83";
+constexpr const char *kCombatExpectedLibgSha256 = "0b580222e5a3502cf153bb5e6297ec32d2b154b605b777c74873dd75722e4eaa";
+constexpr const char *kCombatExpectedLibgBuildId = "179ac4bd38c205bc5041d372a79f1c2f929b1c30";
 constexpr std::size_t kCombatEventRingCapacity = 1024;
 // Projectile terminal markers can outlive the observable event ring because the
 // stock object manager does not necessarily make a projectile absent inside the
@@ -25,31 +25,33 @@ constexpr std::size_t kCombatCausalMarkerCapacity = 4096;
 constexpr std::int32_t kCombatMaxDeckSlots = 8;
 constexpr std::int32_t kCombatUnsetInt = (-2147483647 - 1);
 
-constexpr std::uintptr_t kCombatDamageOffset = 0x00f642c4;
-constexpr std::uintptr_t kCombatHealOffset = 0x00f64d14;
-constexpr std::uintptr_t kCombatConsumeCardOffset = 0x00f38a68;
-constexpr std::uintptr_t kCombatSpawnOffset = 0x00f25b8c;
-constexpr std::uintptr_t kCombatRemoveOffset = 0x00f25d90;
-constexpr std::uintptr_t kCombatDeflectOffset = 0x00f1629c;
-constexpr std::uintptr_t kCombatImpactFunctionOffset = 0x00f29514;
-constexpr std::uintptr_t kCombatImpactBoundaryOffset = 0x00f2981c;
-constexpr std::uintptr_t kCombatProjectileTerminalOffset = 0x00f28470;
-constexpr std::uintptr_t kCombatExpireSourceLostCallOffset = 0x00f2a11c;
-constexpr std::uintptr_t kCombatExpireSourceLostReturnOffset = 0x00f2a120;
-constexpr std::uintptr_t kCombatExpireCancelCallOffset = 0x00f2a148;
-constexpr std::uintptr_t kCombatExpireCancelReturnOffset = 0x00f2a14c;
-constexpr std::uintptr_t kCombatHealEffectReturnOffset = 0x00f20df0;
-constexpr std::uintptr_t kCombatHealProjectileReturnOffset = 0x00f2b374;
-constexpr std::uintptr_t kCombatHealAreaReturnOffset = 0x00f319a4;
+constexpr std::uintptr_t kCombatDamageOffset = 0x010c1e50;
+constexpr std::uintptr_t kCombatHealOffset = 0x010c29a4;
+constexpr std::uintptr_t kCombatConsumeCardOffset = 0x010959ec;
+constexpr std::uintptr_t kCombatSpawnOffset = 0x01083358;
+constexpr std::uintptr_t kCombatRemoveOffset = 0x0108355c;
+constexpr std::uintptr_t kCombatDeflectOffset = 0x01071f14;
+constexpr std::uintptr_t kCombatImpactFunctionOffset = 0x01086dc0;
+constexpr std::uintptr_t kCombatImpactBoundaryOffset = 0x010870fc;
+constexpr std::uintptr_t kCombatProjectileTerminalOffset = 0x01085d24;
+constexpr std::uintptr_t kCombatExpireSourceLostCallOffset = 0x0108794c;
+constexpr std::uintptr_t kCombatExpireSourceLostReturnOffset = 0x01087950;
+constexpr std::uintptr_t kCombatExpireCancelCallOffset = 0x01087978;
+constexpr std::uintptr_t kCombatExpireCancelReturnOffset = 0x0108797c;
+// 16.635.1 turned the effect-heal call into a tail call (b at 0x107d9b4), so
+// no caller return address exists for it; this sentinel never matches.
+constexpr std::uintptr_t kCombatHealEffectReturnOffset = ~std::uintptr_t{0};
+constexpr std::uintptr_t kCombatHealProjectileReturnOffset = 0x01089410;
+constexpr std::uintptr_t kCombatHealAreaReturnOffset = 0x0108f1ac;
 
 constexpr std::uint8_t kCombatDamagePrologue[16] = {
-    0xff, 0x43, 0x03, 0xd1, 0xfd, 0x7b, 0x07, 0xa9, 0xfc, 0x6f, 0x08, 0xa9, 0xfa, 0x67, 0x09, 0xa9,
+    0xff, 0x03, 0x03, 0xd1, 0xfd, 0x7b, 0x06, 0xa9, 0xfc, 0x6f, 0x07, 0xa9, 0xfa, 0x67, 0x08, 0xa9,
 };
 constexpr std::uint8_t kCombatHealPrologue[16] = {
     0xff, 0xc3, 0x01, 0xd1, 0xfd, 0x7b, 0x01, 0xa9, 0xfc, 0x6f, 0x02, 0xa9, 0xfa, 0x67, 0x03, 0xa9,
 };
 constexpr std::uint8_t kCombatConsumeCardPrologue[16] = {
-    0xff, 0x83, 0x03, 0xd1, 0xfd, 0x7b, 0x08, 0xa9, 0xfc, 0x6f, 0x09, 0xa9, 0xfa, 0x67, 0x0a, 0xa9,
+    0xff, 0xc3, 0x03, 0xd1, 0xfd, 0x7b, 0x09, 0xa9, 0xfc, 0x6f, 0x0a, 0xa9, 0xfa, 0x67, 0x0b, 0xa9,
 };
 constexpr std::uint8_t kCombatSpawnPrologue[16] = {
     0xfd, 0x7b, 0xbc, 0xa9, 0xf7, 0x0b, 0x00, 0xf9, 0xf6, 0x57, 0x02, 0xa9, 0xf4, 0x4f, 0x03, 0xa9,
@@ -58,10 +60,10 @@ constexpr std::uint8_t kCombatRemovePrologue[16] = {
     0xfd, 0x7b, 0xbd, 0xa9, 0xf5, 0x0b, 0x00, 0xf9, 0xf4, 0x4f, 0x02, 0xa9, 0xfd, 0x03, 0x00, 0x91,
 };
 constexpr std::uint8_t kCombatDeflectPrologue[16] = {
-    0xff, 0x83, 0x02, 0xd1, 0xfd, 0x7b, 0x04, 0xa9, 0xfc, 0x6f, 0x05, 0xa9, 0xfa, 0x67, 0x06, 0xa9,
+    0xff, 0x43, 0x02, 0xd1, 0xfd, 0x7b, 0x03, 0xa9, 0xfc, 0x6f, 0x04, 0xa9, 0xfa, 0x67, 0x05, 0xa9,
 };
 constexpr std::uint8_t kCombatImpactPrologue[16] = {
-    0xff, 0xc3, 0x02, 0xd1, 0xfd, 0x7b, 0x05, 0xa9, 0xfc, 0x6f, 0x06, 0xa9, 0xfa, 0x67, 0x07, 0xa9,
+    0xff, 0x83, 0x02, 0xd1, 0xfd, 0x7b, 0x04, 0xa9, 0xfc, 0x6f, 0x05, 0xa9, 0xfa, 0x67, 0x06, 0xa9,
 };
 constexpr std::uint8_t kCombatTerminalPrologue[16] = {
     0xfd, 0x7b, 0xbe, 0xa9, 0xf3, 0x0b, 0x00, 0xf9, 0xfd, 0x03, 0x00, 0x91, 0x08, 0x24, 0x40, 0xf9,
@@ -223,13 +225,16 @@ thread_local CombatDeploymentContext g_combat_active_deployment;
 cr_combat_deployment::QueuedMirrorProofStore g_combat_queued_mirror_proofs;
 thread_local CombatDeploymentContext g_combat_pending_deployments[kPlayerCount];
 
-using CombatDamageFunction = std::int32_t (*)(void *, std::int32_t, std::int32_t, std::int32_t, void *, std::int32_t,
-                                              void *, void *, std::uint64_t, std::int32_t *, std::uint64_t,
-                                              std::uint64_t);
+// 16.635.1: damage takes (component, DamageInfo*) instead of 11 scalar args.
+// DamageInfo+0x00 is the requested amount; the immediate source object is
+// resolved from DamageInfo+0x28 by libg+kCombatDamageSourceGetterOffset.
+using CombatDamageFunction = std::int32_t (*)(void *, void *);
+using CombatDamageSourceGetter = void *(*)(const void *);
+constexpr std::uintptr_t kCombatDamageSourceGetterOffset = 0x010c7d48;
 using CombatHealFunction = void (*)(void *, std::int32_t, std::int32_t, void *, std::int32_t, std::int32_t,
                                     std::int32_t);
 using CombatConsumeCardFunction = void (*)(void *, const NativeCardSelection *, std::int32_t, std::int32_t,
-                                           std::int32_t, std::int32_t);
+                                           std::int32_t, std::int32_t, void *);  // 16.635.1: 7th arg (x6)
 using CombatSpawnFunction = void (*)(void *, void *, std::int32_t, std::int32_t);
 using CombatRemoveFunction = void (*)(void *, void *);
 using CombatDeflectFunction = std::int32_t (*)(void *, void *);
@@ -454,11 +459,11 @@ bool current_combat_capture_context(CombatCaptureContext *result) {
 
 bool resolve_combat_evolution_form(const void *base_card_data, std::int32_t form_code, std::uint32_t *global_id_out) {
   constexpr std::int32_t kMaxCombatFormCandidates = 16;
-  if (global_id_out == nullptr || form_code != 1 || !process_range_is_readable(base_card_data, 0x230)) {
+  if (global_id_out == nullptr || form_code != 1 || !process_range_is_readable(base_card_data, 0x268)) {
     return false;
   }
   NativeVectorView candidates;
-  if (!read_native_vector(base_card_data, 0x220, kMaxCombatFormCandidates, &candidates) ||
+  if (!read_native_vector(base_card_data, 0x258, kMaxCombatFormCandidates, &candidates) ||
       (candidates.count != 0 &&
        !process_range_is_readable(candidates.data, static_cast<std::size_t>(candidates.count) * sizeof(void *)))) {
     return false;
@@ -467,10 +472,10 @@ bool resolve_combat_evolution_form(const void *base_card_data, std::int32_t form
   const void *selected = nullptr;
   for (std::int32_t index = 0; index < candidates.count; ++index) {
     const void *const candidate = items[index];
-    if (!process_range_is_readable(candidate, 0x2b0)) {
+    if (!process_range_is_readable(candidate, 0x2e8)) {
       return false;
     }
-    const void *const metadata = read_object_field<const void *>(candidate, 0x2a8);
+    const void *const metadata = read_object_field<const void *>(candidate, 0x2e0);
     if (!process_range_is_readable(metadata, 0x68)) {
       return false;
     }
@@ -981,11 +986,19 @@ CombatCausalMarker consume_combat_marker(CombatCausalMarker *markers, std::uint6
 
 bool combat_try_pointer_membership(void *object_manager, const void *object, bool *is_member);
 
-std::int32_t combat_damage_hook(void *component, std::int32_t requested, std::int32_t metadata_two,
-                                std::int32_t metadata_three, void *immediate_source, std::int32_t metadata_five,
-                                void *auxiliary_six, void *auxiliary_seven, std::uint64_t option_eight,
-                                std::int32_t *applied_amount_out, std::uint64_t option_ten,
-                                std::uint64_t option_eleven) {
+std::int32_t combat_damage_hook(void *component, void *damage_info) {
+  const std::int32_t requested =
+      damage_info != nullptr && process_range_is_readable(damage_info, 0x30)
+          ? read_object_field<std::int32_t>(damage_info, 0x00)
+          : 0;
+  void *immediate_source = nullptr;
+  if (damage_info != nullptr && g_libg_base != 0 && process_range_is_readable(damage_info, 0x30)) {
+    const auto source_getter = reinterpret_cast<CombatDamageSourceGetter>(g_libg_base + kCombatDamageSourceGetterOffset);
+    immediate_source = source_getter(damage_info);
+  }
+  // The new ABI reports no separate applied-amount out pointer; the observed
+  // HP/shield delta is used as the applied amount.
+  std::int32_t *const applied_amount_out = nullptr;
   CombatCaptureContext context;
   CombatRawRecord record;
   const void *target_object = component == nullptr ? nullptr : read_object_field<const void *>(component, 0x08);
@@ -1002,9 +1015,7 @@ std::int32_t combat_damage_hook(void *component, std::int32_t requested, std::in
     }
   }
 
-  const std::int32_t lethal = g_original_combat_damage(component, requested, metadata_two, metadata_three,
-                                                       immediate_source, metadata_five, auxiliary_six, auxiliary_seven,
-                                                       option_eight, applied_amount_out, option_ten, option_eleven);
+  const std::int32_t lethal = g_original_combat_damage(component, damage_info);
   if (!capture) {
     return lethal;
   }
@@ -1195,7 +1206,7 @@ extern "C" void cr_combat_heal_bridge(void *component, std::int32_t requested, s
 }
 
 void combat_consume_card_hook(void *owner_root, const NativeCardSelection *descriptor, std::int32_t argument_two,
-                              std::int32_t argument_three, std::int32_t argument_four, std::int32_t argument_five) {
+                              std::int32_t argument_three, std::int32_t argument_four, std::int32_t argument_five, void *argument_six) {
   const CombatDeploymentContext previous = g_combat_active_deployment;
   CombatDeploymentContext deployment;
   CombatCaptureContext capture;
@@ -1209,7 +1220,8 @@ void combat_consume_card_hook(void *owner_root, const NativeCardSelection *descr
   if (deployment_valid && deployment.owner >= 0 && deployment.owner < kPlayerCount) {
     g_combat_pending_deployments[deployment.owner] = deployment;
   }
-  g_original_combat_consume_card(owner_root, descriptor, argument_two, argument_three, argument_four, argument_five);
+  g_original_combat_consume_card(owner_root, descriptor, argument_two, argument_three, argument_four, argument_five,
+                                 argument_six);
   if (deployment_valid) {
     CombatRawRecord record = combat_base_record(capture, CombatRawKind::CardPlay, kCombatConsumeCardOffset);
     record.deployment = deployment;
@@ -1347,7 +1359,7 @@ std::int32_t combat_deflect_hook(void *area_effect, void *projectile) {
     record = combat_base_record(context, CombatRawKind::ProjectileDeflect, kCombatDeflectOffset);
     capture_combat_entity(projectile, context.object_manager, &record.projectile);
     capture_combat_entity(area_effect, context.object_manager, &record.related);
-    const void *const creator = area_effect == nullptr ? nullptr : read_object_field<const void *>(area_effect, 0x130);
+    const void *const creator = area_effect == nullptr ? nullptr : read_object_field<const void *>(area_effect, 0x120);
     capture_combat_entity(creator, context.object_manager, &record.source);
     capture_projectile_routes(projectile, context.object_manager, &record.route_source_before,
                               &record.route_target_before, &record.destination_before_x, &record.destination_before_y);

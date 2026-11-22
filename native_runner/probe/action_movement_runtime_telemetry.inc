@@ -58,7 +58,8 @@ std::atomic<bool> g_action_movement_hooks_attested{false};
 std::atomic<bool> g_action_movement_hooks_installed{false};
 
 using GoldenKnightHopCommit = void (*)(void *, void *);
-using WarpPositionCommit = void (*)(void *, void *);
+// 16.635.1 reads x3 at entry; forward the full integer argument window.
+using WarpPositionCommit = void (*)(void *, void *, void *, void *);
 
 GoldenKnightHopCommit g_original_golden_knight_hop_commit = nullptr;
 WarpPositionCommit g_original_warp_position_commit = nullptr;
@@ -219,15 +220,15 @@ void golden_knight_hop_commit_hook(void *action_runtime, void *target) {
   publish_action_movement_record(record);
 }
 
-void warp_position_commit_hook(void *action_data, void *action_context) {
+void warp_position_commit_hook(void *action_data, void *action_context, void *argument_two, void *argument_three) {
   if (!g_action_movement_hooks_installed.load(std::memory_order_acquire)) {
-    g_original_warp_position_commit(action_data, action_context);
+    g_original_warp_position_commit(action_data, action_context, argument_two, argument_three);
     return;
   }
 
   CombatCaptureContext context;
   if (!current_combat_capture_context(&context)) {
-    g_original_warp_position_commit(action_data, action_context);
+    g_original_warp_position_commit(action_data, action_context, argument_two, argument_three);
     return;
   }
 
@@ -238,7 +239,7 @@ void warp_position_commit_hook(void *action_data, void *action_context) {
   const bool elite =
       identity_read && action_movement_name_is(identity, cr_action_movement_runtime::kEliteArcherWarpActionName);
   if (!boss && !elite) {
-    g_original_warp_position_commit(action_data, action_context);
+    g_original_warp_position_commit(action_data, action_context, argument_two, argument_three);
     return;
   }
 
@@ -260,7 +261,7 @@ void warp_position_commit_hook(void *action_data, void *action_context) {
       identity.action_class_vtable_offset == cr_action_movement_runtime::kWarpCharacterDataVtableOffset &&
       identity.action_data_global_id != 0 && caller != 0 && source_exact;
 
-  g_original_warp_position_commit(action_data, action_context);
+  g_original_warp_position_commit(action_data, action_context, argument_two, argument_three);
 
   if (!exact) {
     reject_action_movement_record(context);

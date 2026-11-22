@@ -21,6 +21,12 @@ if (-not $PSBoundParameters.ContainsKey("Probe") -and $env:CR_PROBE) { $Probe = 
 if (-not $PSBoundParameters.ContainsKey("OutputApk") -and $env:CR_OUTPUT_APK) { $OutputApk = $env:CR_OUTPUT_APK }
 
 if (-not $Python) { $Python = Get-LocalSetting "CR_PYTHON" "python" }
+# apksigner.bat locates java through JAVA_HOME/PATH, not through CR_JAVA.
+if ($Java -and (Test-Path -LiteralPath $Java)) {
+    $javaBin = Split-Path -Parent (Resolve-Path -LiteralPath $Java).Path
+    if (-not $env:JAVA_HOME) { $env:JAVA_HOME = Split-Path -Parent $javaBin }
+    if (($env:Path -split ';') -notcontains $javaBin) { $env:Path = "$javaBin;$env:Path" }
+}
 $package = "nullsroyale.rel.free"
 $apktoolVersion = "2.12.1"
 $apktoolSha256 = "66cf4524a4a45a7f56567d08b2c9b6ec237bcdd78cee69fd4a59c8a0243aeafa"
@@ -241,6 +247,9 @@ Copy-Item -LiteralPath $Probe -Destination $probeDestination -Force
 if ((Test-Path $keystore) -xor (Test-Path $passwordFile)) {
     throw "Cluster signing key/password files are incomplete; keep or remove both."
 }
+# keytool/apktool/apksigner write progress to stderr. Windows PowerShell 5.1
+# turns that into terminating errors under "Stop"; rely on $LASTEXITCODE below.
+$ErrorActionPreference = "Continue"
 if (-not (Test-Path -LiteralPath $keystore)) {
     $password = (
         [Guid]::NewGuid().ToString("N") +

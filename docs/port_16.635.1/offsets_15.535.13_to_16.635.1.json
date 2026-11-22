@@ -1,0 +1,1581 @@
+{
+ "sha": "0b580222e5a3502cf153bb5e6297ec32d2b154b605b777c74873dd75722e4eaa",
+ "build_id": "179ac4bd38c205bc5041d372a79f1c2f929b1c30",
+ "rows": [
+  {
+   "file": "action_movement_runtime_layout.h",
+   "line": 24,
+   "name": "kGoldenKnightHopOffset",
+   "old": "0xf49d24",
+   "new": "0x10a7230",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbba9fa6701a9f85f02a9f65703a9",
+   "new_prologue": "fd7bbba9fa6701a9f85f02a9f65703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "action_movement_runtime_layout.h",
+   "line": 25,
+   "name": "kWarpPositionCommitOffset",
+   "old": "0xe82a34",
+   "new": "0xfc019c",
+   "confidence": "high",
+   "notes": "vtable; sim 0.959",
+   "old_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "new_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "character_state_runtime_layout.h",
+   "line": 19,
+   "name": "kStateSetterOffset",
+   "old": "0xf18654",
+   "new": "0x1075d64",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.868",
+   "old_prologue": "ffc303d1fd7b09a9fc6f0aa9fa670ba9",
+   "new_prologue": "ff0302d1fd7b02a9fc6f03a9fa6704a9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 28,
+   "name": "kCombatDamageOffset",
+   "old": "0xf642c4",
+   "new": "0x10c1e50",
+   "confidence": "manual",
+   "notes": "manual: same slot directly before CombatHeal (0x10c29a4), size 2640->2900, calls 74->88",
+   "old_prologue": "ff4303d1fd7b07a9fc6f08a9fa6709a9",
+   "new_prologue": "ff0303d1fd7b06a9fc6f07a9fa6708a9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 29,
+   "name": "kCombatHealOffset",
+   "old": "0xf64d14",
+   "new": "0x10c29a4",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "new_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 30,
+   "name": "kCombatConsumeCardOffset",
+   "old": "0xf38a68",
+   "new": "0x10959ec",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.768",
+   "old_prologue": "ff8303d1fd7b08a9fc6f09a9fa670aa9",
+   "new_prologue": "ffc303d1fd7b09a9fc6f0aa9fa670ba9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 31,
+   "name": "kCombatSpawnOffset",
+   "old": "0xf25b8c",
+   "new": "0x1083358",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 32,
+   "name": "kCombatRemoveOffset",
+   "old": "0xf25d90",
+   "new": "0x108355c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 33,
+   "name": "kCombatDeflectOffset",
+   "old": "0xf1629c",
+   "new": "0x1071f14",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.997",
+   "old_prologue": "ff8302d1fd7b04a9fc6f05a9fa6706a9",
+   "new_prologue": "ff4302d1fd7b03a9fc6f04a9fa6705a9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 34,
+   "name": "kCombatImpactFunctionOffset",
+   "old": "0xf29514",
+   "new": "0x1086dc0",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.792"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 35,
+   "name": "kCombatImpactBoundaryOffset",
+   "old": "0xf2981c",
+   "new": "0x10870fc",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.792"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 36,
+   "name": "kCombatProjectileTerminalOffset",
+   "old": "0xf28470",
+   "new": "0x1085d24",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 37,
+   "name": "kCombatExpireSourceLostCallOffset",
+   "old": "0xf2a11c",
+   "new": "0x108794c",
+   "confidence": "high",
+   "notes": "vtable; 1/5 calls to 0x1085d24; sim 0.998"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 38,
+   "name": "kCombatExpireSourceLostReturnOffset",
+   "old": "0xf2a120",
+   "new": "0x1087950",
+   "confidence": "high",
+   "notes": "vtable; 1/5 calls to 0x1085d24; sim 0.998"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 39,
+   "name": "kCombatExpireCancelCallOffset",
+   "old": "0xf2a148",
+   "new": "0x1087978",
+   "confidence": "high",
+   "notes": "vtable; 2/5 calls to 0x1085d24; sim 0.998"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 40,
+   "name": "kCombatExpireCancelReturnOffset",
+   "old": "0xf2a14c",
+   "new": "0x108797c",
+   "confidence": "high",
+   "notes": "vtable; 2/5 calls to 0x1085d24; sim 0.998"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 41,
+   "name": "kCombatHealEffectReturnOffset",
+   "old": "0xf20df0",
+   "new": null,
+   "confidence": "redesign",
+   "notes": "Call to CombatHeal became a TAIL CALL (b 0x10c29a4 at 0x107d9b4); no return address exists in this caller any more."
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 42,
+   "name": "kCombatHealProjectileReturnOffset",
+   "old": "0xf2b374",
+   "new": "0x1089410",
+   "confidence": "low",
+   "notes": "callgraph; 1/1 calls to 0x10c29a4; sim 0.81"
+  },
+  {
+   "file": "combat_event_telemetry.inc",
+   "line": 43,
+   "name": "kCombatHealAreaReturnOffset",
+   "old": "0xf319a4",
+   "new": "0x108f1ac",
+   "confidence": "low",
+   "notes": "callgraph; 1/1 calls to 0x10c29a4; sim 0.825"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 56,
+   "name": "kReplayJsonSetterOffset",
+   "old": "0xc8de8c",
+   "new": "0xda1f90",
+   "confidence": "medium",
+   "notes": "strings; sim 0.778",
+   "old_prologue": "fd7bbea9f44f01a9fd030091f40301aa",
+   "new_prologue": "fd7bbea9f44f01a9fd030091f40301aa",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 57,
+   "name": "kReplayManagerGetterOffset",
+   "old": "0xc8c5b8",
+   "new": "0xda0658",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 58,
+   "name": "kLibgStringFromUtf8Offset",
+   "old": "0x138a800",
+   "new": "0x153de30",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 59,
+   "name": "kNativeReplayRunnerOffset",
+   "old": "0xc87ecc",
+   "new": "0xd9ae04",
+   "confidence": "high",
+   "notes": "similar(0.29); sim 0.716",
+   "old_prologue": "ff0302d1fd7b02a9fb1b00f9fa6704a9",
+   "new_prologue": "ff8303d1fd7b08a9fc6f09a9fa670aa9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 60,
+   "name": "kReplayBattleControllerLifecycleOffset",
+   "old": "0xc87620",
+   "new": "0xd9a2cc",
+   "confidence": "medium",
+   "notes": "strset; sim 0.514",
+   "old_prologue": "ff8303d1fd7b0aa9f85f0ba9f6570ca9",
+   "new_prologue": "ff4304d1e86300fdfdfb0ca9fc6f00f9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 61,
+   "name": "kReplayBattleControllerFullUpdateOffset",
+   "old": "0xc88bbc",
+   "new": "0xd9bba0",
+   "confidence": "high",
+   "notes": "vtable; sim 0.871",
+   "old_prologue": "ff0302d1eb2b036de923046dfd7b05a9",
+   "new_prologue": "ff8302d1eb2b046de923056dfd7b06a9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 62,
+   "name": "kReplayBattleControllerClockOffset",
+   "old": "0xc890bc",
+   "new": "0xd9c278",
+   "confidence": "high",
+   "notes": "strings; sim 0.987",
+   "old_prologue": "0830463948000034c0035fd6ff8303d1",
+   "new_prologue": "08f0453948000034c0035fd6ff8303d1",
+   "prologue_changed": true,
+   "pcrel_in_prologue": "cbz w8, #0xd9c284"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 63,
+   "name": "kReplayBattleControllerAlternateUpdateOffset",
+   "old": "0xc899e0",
+   "new": "0xd9cc24",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "e80f1efcfdfb00a9f30f00f9fd230091",
+   "new_prologue": "e80f1efcfdfb00a9f30f00f9fd230091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 64,
+   "name": "kReplayClockGlobalPauseGuardOffset",
+   "old": "0xcb6694",
+   "new": "0xdcda40",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 65,
+   "name": "kGameAppGetterOffset",
+   "old": "0x755818",
+   "new": "0x7c2808",
+   "confidence": "manual",
+   "notes": "manual: GameApp singleton getter, now non-lazy adrp/ldr/ret; same call slot after SHA init in init-enter func; 379 caller sites"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 66,
+   "name": "kGameAppPauseGuardOffset",
+   "old": "0x75c628",
+   "new": "0x7c99ac",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 67,
+   "name": "kGameAppPendingEventSetterOffset",
+   "old": "0x75a6dc",
+   "new": "0x7c79d8",
+   "confidence": "review",
+   "notes": "Same popup strings, but entry logic rewritten (old early-out compared fields 0x1b8/0x1bc/0x1c0; new checks w1==1 and byte 0x24b). PendingEvent field offsets must be re-derived.",
+   "old_prologue": "08c041b909bc41b91f01026b08e04639",
+   "new_prologue": "ff0303d1fd7b08a9f85f09a9f6570aa9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 74,
+   "name": "kGameStateLoadOffset",
+   "old": "0x1061b1c",
+   "new": "0x11d2dc4",
+   "confidence": "manual",
+   "notes": "Same slot between identical neighbours; body 976->512 bytes, replay-json error path moved out. Check hook ABI.",
+   "old_prologue": "ff8301d1fd7b01a9f91300f9f85f03a9",
+   "new_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 75,
+   "name": "kGameStateStepOffset",
+   "old": "0x10620a4",
+   "new": "0x11d3174",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.682",
+   "old_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 76,
+   "name": "kGameStateTickOffset",
+   "old": "0x1062bc0",
+   "new": "0x11d32f0",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 77,
+   "name": "kGameStateContextAOffset",
+   "old": "0x80031c",
+   "new": "0x878c00",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.947"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 78,
+   "name": "kGameStateContextBOffset",
+   "old": "0xeaf1c8",
+   "new": "0xff253c",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.667"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 79,
+   "name": "kGameStateNewOffset",
+   "old": "0x17e4b20",
+   "new": "0x198db50",
+   "confidence": "high",
+   "notes": "plt:_Znwm"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 80,
+   "name": "kGameStateDeleteOffset",
+   "old": "0x17e4b50",
+   "new": "0x198db60",
+   "confidence": "high",
+   "notes": "plt:_ZdlPv"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 81,
+   "name": "kGameStateConstructorOffset",
+   "old": "0x1060ba8",
+   "new": "0x11d1e68",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.947"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 82,
+   "name": "kGameStateSetupOffset",
+   "old": "0x1060f84",
+   "new": "0x11d225c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 83,
+   "name": "kGameStateDestroyOffset",
+   "old": "0x10610b0",
+   "new": "0x11d2388",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.916"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 84,
+   "name": "kGameStateBaseDestroyOffset",
+   "old": "0x988844",
+   "new": "0x9fe0b0",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 85,
+   "name": "kJsonParseOffset",
+   "old": "0x121a648",
+   "new": "0x139f838",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 86,
+   "name": "kLogicCommandParseOffset",
+   "old": "0xd2fe78",
+   "new": "0xe553e4",
+   "confidence": "medium",
+   "notes": "similar(0.18); sim 0.69"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 87,
+   "name": "kLogicCommandAppendOffset",
+   "old": "0xd2eef0",
+   "new": "0xe5443c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 88,
+   "name": "kLogicCommandQueueConstructorOffset",
+   "old": "0xd2eddc",
+   "new": "0xe54328",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 89,
+   "name": "kLogicCommandQueueDestroyOffset",
+   "old": "0xd2ee40",
+   "new": "0xe5438c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 95,
+   "name": "kStateSnapshotOffset",
+   "old": "0xad9a50",
+   "new": "0xbb3ac4",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 96,
+   "name": "kStateSnapshotDeleteOffset",
+   "old": "0x105e8bc",
+   "new": "0xe4b0ac",
+   "confidence": "high",
+   "notes": "similar(0.43)->override(0xe4b0ac); sim 0.923"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 97,
+   "name": "kByteStreamResetReadOffset",
+   "old": "0x121220c",
+   "new": "0x1397568",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 98,
+   "name": "kByteStreamFlipReadOffset",
+   "old": "0x121221c",
+   "new": "0x1397578",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 99,
+   "name": "kByteStreamResetChecksumOffset",
+   "old": "0x12141bc",
+   "new": "0x1399518",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 100,
+   "name": "kGameStateDeserializeHeaderOffset",
+   "old": "0x10634c0",
+   "new": "0x11d45c8",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 101,
+   "name": "kGameStateDeserializeBodyOffset",
+   "old": "0x106379c",
+   "new": "0x11d4b14",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.997"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 102,
+   "name": "kCardSelectionBuildOffset",
+   "old": "0xe2d1bc",
+   "new": "0xf671a0",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 103,
+   "name": "kJsonMemberFindOffset",
+   "old": "0xd0e100",
+   "new": "0xc40d68",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 104,
+   "name": "kLogicDataByGlobalIdOffset",
+   "old": "0xdd1340",
+   "new": "0xefe42c",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 105,
+   "name": "kLocationTileMapEnsureOffset",
+   "old": "0x857608",
+   "new": "0x8ae750",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 106,
+   "name": "kLocationTileMapLookupOffset",
+   "old": "0xdf8508",
+   "new": "0xf2edec",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 113,
+   "name": "kTranslatedSha256InitializerCallOffset",
+   "old": "0xc8ece0",
+   "new": "0xda35b0",
+   "confidence": "medium",
+   "notes": "strings; 1/1 calls to 0x7e62fc; sim 0.864"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 118,
+   "name": "kBuffAssetClassNameGetterOffset",
+   "old": "0xd961f4",
+   "new": "0xe9eafc",
+   "confidence": "high",
+   "notes": "vtable->override(0xe9eafc); sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 119,
+   "name": "kLogicDataTypeGetterOffset",
+   "old": "0xdc2560",
+   "new": "0xeeee10",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 121,
+   "name": "kProjectileKindGetterOffset",
+   "old": "0xf27a58",
+   "new": "0x108530c",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0"
+  },
+  {
+   "file": "native_touch_interceptor.cpp",
+   "line": 20,
+   "name": "kGameAppTouchOffset",
+   "old": "0x13d0be0",
+   "new": "0x156f790",
+   "confidence": "high",
+   "notes": "similar(0.72); sim 0.964",
+   "old_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 23,
+   "name": "kAttackComponentTypeGetterOffset",
+   "old": "0xf5c878",
+   "new": "0x10ba8c4",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 24,
+   "name": "kMovementComponentTypeGetterOffset",
+   "old": "0xf6939c",
+   "new": "0x10c70f4",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 25,
+   "name": "kBuffComponentTypeGetterOffset",
+   "old": "0xf59aac",
+   "new": "0x10b79c4",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 28,
+   "name": "kActionDispatchOffset",
+   "old": "0xf23110",
+   "new": "0x1080784",
+   "confidence": "manual",
+   "notes": "Old single wrapper split in 16.635.1: identical 3-arg variants 0x1080784 (84 callers) and 0x1080544 (18 callers), plus a 4-arg variant 0x10808f4 (ActionWait). Hook all three to keep full coverage.",
+   "old_prologue": "420300b4fd7bbda9f65701a9f44f02a9",
+   "new_prologue": "fd7bbda9f65701a9f44f02a9fd030091",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 29,
+   "name": "kAttackExecuteOffset",
+   "old": "0xf5f100",
+   "new": "0x10bcddc",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.672",
+   "old_prologue": "ff8305d1fd7b10a9fc6f11a9fa6712a9",
+   "new_prologue": "ff4304d1fd7b0ba9fc6f0ca9fa670da9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 30,
+   "name": "kTargetSetOffset",
+   "old": "0xf5c894",
+   "new": "0x10ba8e0",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.989",
+   "old_prologue": "fd7bbba9f90b00f9f85f02a9f65703a9",
+   "new_prologue": "fd7bbba9f90b00f9f85f02a9f65703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 31,
+   "name": "kBuffAddedOffset",
+   "old": "0xf5a2d4",
+   "new": "0x10b820c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "new_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 32,
+   "name": "kMovementScaleOffset",
+   "old": "0xf5b3c8",
+   "new": "0x10b9300",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0",
+   "old_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 33,
+   "name": "kAttackScaleOffset",
+   "old": "0xf5b4ac",
+   "new": "0x10b93e4",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0",
+   "old_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f85f01a9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 34,
+   "name": "kEffectiveMovementSpeedOffset",
+   "old": "0xf1d004",
+   "new": "0x10796f4",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 35,
+   "name": "kMovementDeltaOffset",
+   "old": "0xf68808",
+   "new": "0x10c6560",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 38,
+   "name": "kAttackStartReturnOffset",
+   "old": "0xf61a7c",
+   "new": "0x10bf698",
+   "confidence": "high",
+   "notes": "Return after bl 0x1080544 (dispatch variant); sequence identical, field 0x178->0x180 just before."
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 39,
+   "name": "kClassicChargeActionReturnOffset",
+   "old": "0xf68958",
+   "new": "0x10c66b0",
+   "confidence": "high",
+   "notes": "Identical body (hash); return after dispatch-variant call."
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 40,
+   "name": "kPrimaryAttackReturnOffset",
+   "old": "0xf61d10",
+   "new": "0x10bf944",
+   "confidence": "high",
+   "notes": "vtable; 1/2 calls to 0x10bcddc; sim 0.919"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 41,
+   "name": "kAdditionalAttackReturnOffset",
+   "old": "0xf61e34",
+   "new": "0x10bfab4",
+   "confidence": "high",
+   "notes": "vtable; 2/2 calls to 0x10bcddc; sim 0.919"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 42,
+   "name": "kAttackScaleReturnOffset",
+   "old": "0xf62030",
+   "new": "0x10bfcec",
+   "confidence": "high",
+   "notes": "callgraph; 1/1 calls to 0x10b93e4; sim 0.916"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 43,
+   "name": "kEffectiveSpeedEffectReturnOffset",
+   "old": "0xf1d218",
+   "new": "0x1079908",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x10b9300; sim 1.0"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 44,
+   "name": "kMovementTickScaleReturnOffset",
+   "old": "0xf66290",
+   "new": "0x10c3fe8",
+   "confidence": "high",
+   "notes": "callgraph; 1/1 calls to 0x10b9300; sim 0.997"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 45,
+   "name": "kDeployScaleReturnOffset",
+   "old": "0xf1abc0",
+   "new": "0x1077548",
+   "confidence": "high",
+   "notes": "Identical 6-instruction sequence after bl MovementScale."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 38,
+   "name": "kResourceWholeDeltaOffset",
+   "old": "0xf3ba4c",
+   "new": "0x1098b8c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f65701a9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f65701a9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 39,
+   "name": "kResourceFixedDeltaOffset",
+   "old": "0xf3b3d4",
+   "new": "0x1098510",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 40,
+   "name": "kPeriodicResourceCallOffset",
+   "old": "0xf1acd0",
+   "new": "0x10775dc",
+   "confidence": "high",
+   "notes": "vtable; 1/1 calls to 0x1098b8c; sim 0.867"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 41,
+   "name": "kPeriodicResourceReturnOffset",
+   "old": "0xf1acd4",
+   "new": "0x10775e0",
+   "confidence": "high",
+   "notes": "vtable; 1/1 calls to 0x1098b8c; sim 0.867"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 42,
+   "name": "kDeathOwnerResourceCallOffset",
+   "old": "0xf63714",
+   "new": "0x10c1278",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x1098b8c; sim 1.0"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 43,
+   "name": "kDeathOwnerResourceReturnOffset",
+   "old": "0xf63718",
+   "new": "0x10c127c",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x1098b8c; sim 1.0"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 44,
+   "name": "kDeathOpponentResourceCallOffset",
+   "old": "0xf63830",
+   "new": "0x10c1394",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x1098510; sim 1.0"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 45,
+   "name": "kDeathOpponentResourceReturnOffset",
+   "old": "0xf63834",
+   "new": "0x10c1398",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x1098510; sim 1.0"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 96,
+   "name": "kAreaEffectObjectFactoryOffset",
+   "old": "0xf2384c",
+   "new": "0x1080fa4",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 97,
+   "name": "kAreaEffectObjectTickOffset",
+   "old": "0xf143a8",
+   "new": "0x1070d18",
+   "confidence": "medium",
+   "notes": "vtable; sim 0.567",
+   "old_prologue": "ff0306d1fd7b12a9fc6f13a9fa6714a9",
+   "new_prologue": "ffc303d1fd7b09a9fc6f0aa9fa670ba9",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 112,
+   "name": "kCombatSpawnOffset",
+   "old": "0xf25b8c",
+   "new": "0x1083358",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 113,
+   "name": "kCombatRemoveOffset",
+   "old": "0xf25d90",
+   "new": "0x108355c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 131,
+   "name": "kCharacterSpawnHelperOffset",
+   "old": "0xf19314",
+   "new": null,
+   "confidence": "redesign",
+   "notes": "Helper inlined/removed in 16.635.1 (its slot is gone, no matched caller calls a common helper)."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 132,
+   "name": "kSpawnAttachHelperCallOffset",
+   "old": "0xf18ff0",
+   "new": null,
+   "confidence": "redesign",
+   "notes": "Depends on removed CharacterSpawnHelper."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 133,
+   "name": "kSpawnAttachHelperReturnOffset",
+   "old": "0xf18ff4",
+   "new": null,
+   "confidence": "redesign",
+   "notes": "Depends on removed CharacterSpawnHelper."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 151,
+   "name": "kAreaDamageEligibleOffset",
+   "old": "0xf1cb90",
+   "new": "0x1079120",
+   "confidence": "high",
+   "notes": "vtable; sim 0.89",
+   "old_prologue": "08c040f9680000b4e0030012c0035fd6",
+   "new_prologue": "08c040f9680000b4e0030012c0035fd6",
+   "prologue_changed": false,
+   "pcrel_in_prologue": "cbz x8, #0x1079130"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 152,
+   "name": "kAreaDamageEligibleBodyOffset",
+   "old": "0xf1cba0",
+   "new": "0x1079130",
+   "confidence": "high",
+   "notes": "vtable; sim 0.89"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 159,
+   "name": "kTowerTargetSetOffset",
+   "old": "0xf5c894",
+   "new": "0x10ba8e0",
+   "confidence": "high",
+   "notes": "callgraph; sim 0.989"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 160,
+   "name": "kActionDispatchOffset",
+   "old": "0xf23110",
+   "new": "0x1080784",
+   "confidence": "manual",
+   "notes": "Old single wrapper split in 16.635.1: identical 3-arg variants 0x1080784 (84 callers) and 0x1080544 (18 callers), plus a 4-arg variant 0x10808f4 (ActionWait). Hook all three to keep full coverage.",
+   "old_prologue": "420300b4fd7bbda9f65701a9f44f02a9",
+   "new_prologue": "fd7bbda9f65701a9f44f02a9fd030091",
+   "prologue_changed": true,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 161,
+   "name": "kActionSpawnToLocationExecuteOffset",
+   "old": "0xe7b864",
+   "new": "0xfb7e64",
+   "confidence": "medium",
+   "notes": "vtable; sim 0.86",
+   "old_prologue": "ff8303d1fd7b08a9fc6f09a9fa670aa9",
+   "new_prologue": "ff8303d1fd7b08a9fc6f09a9fa670aa9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 169,
+   "name": "kActionSpawnMode1ChildCreateOffset",
+   "old": "0xf2ffb8",
+   "new": "0x108d838",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 170,
+   "name": "kActionSpawnMode1ChildCreateReturnOffset",
+   "old": "0xf24bb0",
+   "new": "0x108236c",
+   "confidence": "medium",
+   "notes": "similar(0.36); 1/1 calls to 0x10830e0; sim 0.562"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 175,
+   "name": "kPendingObjectAddOffset",
+   "old": "0xf25928",
+   "new": "0x10830f4",
+   "confidence": "high",
+   "notes": "callgraph; sim 1.0",
+   "old_prologue": "080040f902e04139e3031f2a042140f9",
+   "new_prologue": "080040f902e04139e3031f2a042140f9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 176,
+   "name": "kActionWaitUpdateOffset",
+   "old": "0xf587c4",
+   "new": "0x10b6110",
+   "confidence": "medium",
+   "notes": "Same structure (sim 0.94); now calls 4-arg dispatch 0x10808f4 with extra x3 argument.",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 177,
+   "name": "kActionWaitDispatchCallOffset",
+   "old": "0xf5881c",
+   "new": "0x10b6178",
+   "confidence": "medium",
+   "notes": "bl 0x10808f4 (4-arg dispatch, signature changed)."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 178,
+   "name": "kActionWaitDispatchReturnOffset",
+   "old": "0xf58820",
+   "new": "0x10b617c",
+   "confidence": "medium",
+   "notes": "Return after bl 0x10808f4."
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 207,
+   "name": "kChangeGameObjectDataExecuteOffset",
+   "old": "0xe58638",
+   "new": "0xf93844",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "new_prologue": "fd7bbda9f50b00f9f44f02a9fd030091",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 208,
+   "name": "kChangeMutationCallOffset",
+   "old": "0xe58678",
+   "new": "0xf93884",
+   "confidence": "high",
+   "notes": "Same blr site; virtual slot moved 0x1e0 -> 0x1e8, update kChangeMutationCallFingerprint."
+  },
+  {
+   "file": "special_movement_runtime_layout.h",
+   "line": 20,
+   "name": "kExecuteOffset",
+   "old": "0xf609dc",
+   "new": "0x10be63c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "new_prologue": "ffc301d1fd7b01a9fc6f02a9fa6703a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "special_movement_runtime_layout.h",
+   "line": 21,
+   "name": "kExecuteCallerReturnOffset",
+   "old": "0xf61bf0",
+   "new": "0x10bf7fc",
+   "confidence": "high",
+   "notes": "vtable; 1/1 calls to 0x10be63c; sim 0.919"
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 19,
+   "name": "kDaggerInitOffset",
+   "old": "0xf43f10",
+   "new": "0x10a1270",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0",
+   "old_prologue": "fd7bbea9f30b00f9fd030091f30300aa",
+   "new_prologue": "fd7bbea9f30b00f9fd030091f30300aa",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 20,
+   "name": "kDaggerTickOffset",
+   "old": "0xf43f3c",
+   "new": "0x10a129c",
+   "confidence": "high",
+   "notes": "vtable; sim 0.989",
+   "old_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "new_prologue": "fd7bbca9f70b00f9f65702a9f44f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 38,
+   "name": "kChefInitOffset",
+   "old": "0xf47e08",
+   "new": "0x10a5378",
+   "confidence": "high",
+   "notes": "vtable; sim 1.0",
+   "old_prologue": "fd7bbea9f30b00f9fd030091f30300aa",
+   "new_prologue": "fd7bbea9f30b00f9fd030091f30300aa",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 39,
+   "name": "kChefTickOffset",
+   "old": "0xf47e3c",
+   "new": "0x10a53ac",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "fd7bbaa9fc6f01a9fa6702a9f85f03a9",
+   "new_prologue": "fd7bbaa9fc6f01a9fa6702a9f85f03a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 24,
+   "name": "kBuffApplyOffset",
+   "old": "0xf5a2d4",
+   "new": "0x10b820c",
+   "confidence": "high",
+   "notes": "hash; sim 1.0"
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 25,
+   "name": "kBuffApplyOnlyCallOffset",
+   "old": "0xf59ea8",
+   "new": "0x10b7dcc",
+   "confidence": "high",
+   "notes": "callgraph; 1/1 calls to 0x10b820c; sim 0.974"
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 26,
+   "name": "kBuffRemoveOffset",
+   "old": "0xf5a578",
+   "new": "0x10b84b0",
+   "confidence": "high",
+   "notes": "hash; sim 1.0",
+   "old_prologue": "ff4302d1fd7b03a9fc6f04a9fa6705a9",
+   "new_prologue": "ff4302d1fd7b03a9fc6f04a9fa6705a9",
+   "prologue_changed": false,
+   "pcrel_in_prologue": ""
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 27,
+   "name": "kBuffRemoveOnlyCallOffset",
+   "old": "0xf59304",
+   "new": "0x10b721c",
+   "confidence": "high",
+   "notes": "hash; 1/1 calls to 0x10b84b0; sim 1.0"
+  },
+  {
+   "file": "action_movement_runtime_layout.h",
+   "line": 34,
+   "name": "kDashingAttackChainDataVtableOffset",
+   "old": "0x188daf8",
+   "new": "0x1a40c28",
+   "confidence": "high",
+   "notes": "vtable slots 30/30; slot match 0x1a40c28 30/30"
+  },
+  {
+   "file": "action_movement_runtime_layout.h",
+   "line": 35,
+   "name": "kDashingAttackChainRuntimeVtableOffset",
+   "old": "0x189eca0",
+   "new": "0x1a52428",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a52428 30/30"
+  },
+  {
+   "file": "action_movement_runtime_layout.h",
+   "line": 36,
+   "name": "kWarpCharacterDataVtableOffset",
+   "old": "0x1895120",
+   "new": "0x1a481b0",
+   "confidence": "high",
+   "notes": "vtable slots 30/30; slot match 0x1a481b0 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 107,
+   "name": "kEglSwapBuffersGotOffset",
+   "old": "0x18e9d88",
+   "new": "0x1a9d6b0",
+   "confidence": "high",
+   "notes": "got:eglSwapBuffers"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 114,
+   "name": "kTranslatedSha256InitializerCall",
+   "old": "0x97eba894",
+   "new": "0x97e90b53",
+   "confidence": "high",
+   "notes": "instruction word at new call site (old word matches)"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 115,
+   "name": "kAarch64Nop",
+   "old": "0xd503201f",
+   "new": "0xd503201f",
+   "confidence": "high",
+   "notes": "constant"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 116,
+   "name": "kGameStateContextRootSlotOffset",
+   "old": "0x19ad878",
+   "new": "0x1b61d00",
+   "confidence": "medium",
+   "notes": "dataref vote 6/10 from 8 funcs"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 117,
+   "name": "kBuffAssetVtableOffset",
+   "old": "0x1882500",
+   "new": "0x1a349f0",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 2 funcs; slots 8/8; slot match 0x1a349f0 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 120,
+   "name": "kProjectileVtableOffset",
+   "old": "0x189cc28",
+   "new": "0x1a50348",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 7/8; slot match 0x1a50348 24/29"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 122,
+   "name": "kCharacterVtableOffset",
+   "old": "0x189c4e8",
+   "new": "0x1a4fbb8",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 7/8; slot match 0x1a4fbb8 23/28"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 125,
+   "name": "kChampionControllerVtableOffset",
+   "old": "0x189e4e8",
+   "new": "0x1a51c30",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 8/8; slot match 0x1a51c30 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 126,
+   "name": "kChampionActionDataVtableOffset",
+   "old": "0x188cb28",
+   "new": "0x1a3fd60",
+   "confidence": "high",
+   "notes": "vtable slots 30/30; slot match 0x1a3fd60 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 127,
+   "name": "kCharacterAbilityDataVtableOffset",
+   "old": "0x18823f0",
+   "new": "0x1a348e0",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 8/8; slot match 0x1a348e0 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 131,
+   "name": "kCaptureCharacterActionDataVtableOffset",
+   "old": "0x188c848",
+   "new": "0x1a3fab0",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 8/8; slot match 0x1a3fab0 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 132,
+   "name": "kCaptureCharacterRuntimeVtableOffset",
+   "old": "0x189e2d8",
+   "new": "0x1a51a20",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 2 funcs; slots 8/8; slot match 0x1a51a20 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 136,
+   "name": "kThresholdRelocationActionDataVtableOffset",
+   "old": "0x188ef18",
+   "new": "0x1a41da0",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 8/8; slot match 0x1a41da0 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 137,
+   "name": "kThresholdRelocationRuntimeVtableOffset",
+   "old": "0x189f6f0",
+   "new": "0x1a52fc0",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 7/8; slot match 0x1a52fc0 29/29"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 140,
+   "name": "kPeriodicAttackModifierActionDataVtableOffset",
+   "old": "0x188eac8",
+   "new": "0x1a41998",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 2 funcs; slots 8/8; slot match 0x1a41998 30/30"
+  },
+  {
+   "file": "cr_replay_probe.cpp",
+   "line": 141,
+   "name": "kPeriodicAttackModifierRuntimeVtableOffset",
+   "old": "0x189f3d8",
+   "new": "0x1a52ca8",
+   "confidence": "high",
+   "notes": "dataref vote 4/4 from 4 funcs; slots 8/8; slot match 0x1a52ca8 30/30"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 20,
+   "name": "kAttackComponentVtableOffset",
+   "old": "0x18a1dd0",
+   "new": "0x1a558b0",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a558b0 23/23"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 21,
+   "name": "kMovementComponentVtableOffset",
+   "old": "0x18a1f38",
+   "new": "0x1a55a18",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a55a18 23/23"
+  },
+  {
+   "file": "phase_runtime_layout.h",
+   "line": 22,
+   "name": "kBuffComponentVtableOffset",
+   "old": "0x18a1d58",
+   "new": "0x1a55838",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a55838 26/26"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 95,
+   "name": "kAreaEffectObjectVtableOffset",
+   "old": "0x189c2e8",
+   "new": "0x1a4f9a0",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 3 funcs; slots 6/8; slot match 0x1a4f9a0 23/28"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 149,
+   "name": "kCharacterVtableOffset",
+   "old": "0x189c4e8",
+   "new": "0x1a4fbb8",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 7/8; slot match 0x1a4fbb8 23/28"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 162,
+   "name": "kActionSpawnToLocationStaticVtableOffset",
+   "old": "0x1894588",
+   "new": "0x1a47298",
+   "confidence": "high",
+   "notes": "vtable slots 30/30; slot match 0x1a47298 30/30"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 179,
+   "name": "kActionWaitStaticVtableOffset",
+   "old": "0x1894fb0",
+   "new": "0x1a32488",
+   "confidence": "high",
+   "notes": "vtable slots 23/23; slot match 0x1a32488 23/23"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 180,
+   "name": "kActionWaitRuntimeVtableOffset",
+   "old": "0x18a1a40",
+   "new": "0x1a4f7f8",
+   "confidence": "high",
+   "notes": "vtable slots 27/27; slot match 0x1a4f7f8 27/27"
+  },
+  {
+   "file": "remaining_runtime_layout.h",
+   "line": 206,
+   "name": "kChangeGameObjectDataVtableOffset",
+   "old": "0x188cc98",
+   "new": "0x1a3feb8",
+   "confidence": "high",
+   "notes": "vtable slots 30/30; slot match 0x1a3feb8 30/30"
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 21,
+   "name": "kDaggerRuntimeVtableOffset",
+   "old": "0x189e0c8",
+   "new": "0x1a51810",
+   "confidence": "high",
+   "notes": "dataref vote 1/1 from 1 funcs; slots 7/8; slot match 0x1a51810 29/29"
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 22,
+   "name": "kDaggerStaticVtableOffset",
+   "old": "0x188c3f8",
+   "new": "0x1a3f6a8",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a3f6a8 30/30"
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 40,
+   "name": "kChefRuntimeVtableOffset",
+   "old": "0x189e738",
+   "new": "0x1a51ec0",
+   "confidence": "high",
+   "notes": "Init/Tick slots and constructor ref agree; auto pick 0x1a54778 was wrong (bad dtor match)."
+  },
+  {
+   "file": "tower_troop_runtime_layout.h",
+   "line": 41,
+   "name": "kChefStaticVtableOffset",
+   "old": "0x188cf78",
+   "new": "0x1a40168",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 2 funcs; slots 8/8; slot match 0x1a40168 30/30"
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 13,
+   "name": "kBuffComponentVtableOffset",
+   "old": "0x18a1d58",
+   "new": "0x1a55838",
+   "confidence": "high",
+   "notes": "dataref vote 3/3 from 3 funcs; slots 8/8; slot match 0x1a55838 26/26"
+  },
+  {
+   "file": "visibility_runtime_layout.h",
+   "line": 14,
+   "name": "kBuffAssetVtableOffset",
+   "old": "0x1882500",
+   "new": "0x1a349f0",
+   "confidence": "high",
+   "notes": "dataref vote 2/2 from 2 funcs; slots 8/8; slot match 0x1a349f0 30/30"
+  }
+ ]
+}

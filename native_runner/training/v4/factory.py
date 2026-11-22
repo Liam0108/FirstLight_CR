@@ -94,9 +94,14 @@ def deck_roles_from_form_availability(
 
     if len(deck) != 8 or len(form_availability) != 8:
         raise ValueError("deck and form availability must each contain eight rows")
+    # Runtime-only 16.635 evolutions (e.g. ElectroGiant_EV1) run natively but are
+    # outside the frozen policy contract: the policy deck role keeps the base form.
+    from ...battle_env import _policy_form_availability
+
+    policy_forms = _policy_form_availability(tuple(int(c) for c in deck), tuple(int(m) for m in form_availability))
     return {
         int(card_id): (bool(int(mask) & 0x2), bool(int(mask) & 0x1))
-        for card_id, mask in zip(deck, form_availability, strict=True)
+        for card_id, mask in zip(deck, policy_forms, strict=True)
     }
 
 

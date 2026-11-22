@@ -29,7 +29,11 @@ def run_ai_duel(
     device: str = "cpu",
     speed: float = 1.0,
     artifact_dir: Path,
+    sample: bool = True,
+    opening_fallback_tick: int | None = 300,
+    stall_ticks: int | None = 100,
 ) -> dict:
+    full_elixir_since: list[int | None] = [None, None]
     if speed not in NATIVE_RENDER_SPEEDS:
         raise ValueError("unsupported native render speed")
     artifact_dir.mkdir(parents=True, exist_ok=True)
@@ -75,7 +79,7 @@ def run_ai_duel(
         }
         for owner in (0, 1):
             session = build_policy_session_v4(
-                environment, loaded[owner].model, actor_owner=owner, device=device, sample=False
+                environment, loaded[owner].model, actor_owner=owner, device=device, sample=sample
             )
             sessions.append(session)
             session.start_episode(observations[owner], initial_elixir=initial_elixir)
@@ -103,6 +107,30 @@ def run_ai_duel(
                     forced = force_path.exists()
                     if forced:
                         force_path.unlink(missing_ok=True)
+                    # Historical evaluation protocol (docs/training_history.md): a side that
+                    # has not played by 15 s receives one forced first action. Without it
+                    # mirror matches can stall at full elixir until someone commits.
+                    if (
+                        opening_fallback_tick is not None
+                        and not forced
+                        and actions[owner] == 0
+                        and observation.tick >= opening_fallback_tick
+                    ):
+                        forced = True
+                    own_elixir = next((p.elixir_exact for p in observation.players if p.owner == owner), None)
+                    if own_elixir is not None and own_elixir >= 9.99:
+                        full_elixir_since[owner] = (
+                            observation.tick if full_elixir_since[owner] is None else full_elixir_since[owner]
+                        )
+                    else:
+                        full_elixir_since[owner] = None
+                    if (
+                        stall_ticks is not None
+                        and full_elixir_since[owner] is not None
+                        and observation.tick - full_elixir_since[owner] >= stall_ticks
+                    ):
+                        forced = True
+                        full_elixir_since[owner] = None
                     decision = sessions[owner].decide(observation, force_act=forced)
                     selected = tuple(_rendered_action(action) for action in decision.decoded.actions)
                     commands[owner] = selected or commands[owner]
@@ -158,6 +186,14 @@ def main(argv=None) -> int:
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--artifact-dir", type=Path, required=True)
+    # Same default as the Human-vs-AI agent: sampled decoding. With argmax decoding the
+    # shipped policies rarely exceed 50% act probability per decision and mostly wait.
+    parser.add_argument("--deterministic", action="store_true")
+    # Ticks are 50 ms: 300 = 15 s, the historical forced-first-action threshold.
+    parser.add_argument("--opening-fallback-tick", type=int, default=300)
+    parser.add_argument("--no-opening-fallback", action="store_true")
+    parser.add_argument("--stall-ticks", type=int, default=100)  # 5 s at full elixir
+    parser.add_argument("--no-stall-guard", action="store_true")
     args = parser.parse_args(argv)
     config = json.loads(args.match_config.read_text(encoding="utf-8"))
     for key in ("deck0", "deck1", "deck0_form_availability", "deck1_form_availability"):
@@ -172,6 +208,9 @@ def main(argv=None) -> int:
         device=args.device,
         speed=args.speed,
         artifact_dir=args.artifact_dir,
+        sample=not args.deterministic,
+        opening_fallback_tick=None if args.no_opening_fallback else args.opening_fallback_tick,
+        stall_ticks=None if args.no_stall_guard else args.stall_ticks,
     )
     print(json.dumps(result), flush=True)
     return 0

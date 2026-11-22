@@ -54,6 +54,8 @@ def run_offline_match(
     artifact_dir: Path,
     should_stop: Callable[[], bool] = lambda: False,
     on_ready: Callable[[dict], None] = lambda _info: None,
+    opening_fallback_tick: int | None = 300,
+    stall_ticks: int | None = 100,
 ) -> dict:
     if actor_owner not in (0, 1) or speed not in NATIVE_RENDER_SPEEDS:
         raise ValueError("model owner must be 0 or 1 and speed must be a supported native render speed")
@@ -73,7 +75,8 @@ def run_offline_match(
         effect_catalog=RuntimeEffectCatalog.from_catalog(bundle.native_effect_catalog),
     )
     session = None
-    decisions = actions = rejected = 0
+    decisions = actions = rejected = forced_actions = 0
+    full_elixir_since: int | None = None
     terminated = truncated = False
     result = {}
     rejected_events = set()
@@ -113,7 +116,28 @@ def run_offline_match(
                 observation = observations[actor_owner]
                 commands = {owner: (ActionV1.wait(owner, ticks=POLICY_DECISION_TICKS),) for owner in (0, 1)}
                 if observation.tick >= FIRST_POLICY_DECISION_TICK:
-                    decision = session.decide(observation)
+                    own_elixir = next(
+                        (p.elixir_exact for p in observation.players if p.owner == actor_owner), None
+                    )
+                    if own_elixir is not None and own_elixir >= 9.99:
+                        full_elixir_since = observation.tick if full_elixir_since is None else full_elixir_since
+                    else:
+                        full_elixir_since = None
+                    # Opening protocol (docs/training_history.md): one forced first action if the
+                    # model has not played by 15 s. Stall guard: also force a play after the model
+                    # has sat at full elixir for `stall_ticks`; the shipped policies are otherwise
+                    # prone to waiting indefinitely against a human who does not commit first.
+                    force = (
+                        opening_fallback_tick is not None and actions == 0 and observation.tick >= opening_fallback_tick
+                    ) or (
+                        stall_ticks is not None
+                        and full_elixir_since is not None
+                        and observation.tick - full_elixir_since >= stall_ticks
+                    )
+                    decision = session.decide(observation, force_act=force)
+                    if force:
+                        forced_actions += sum(a.kind != ActionKind.WAIT for a in decision.decoded.actions)
+                        full_elixir_since = None
                     commands[actor_owner] = (
                         tuple(_rendered_action(a) for a in decision.decoded.actions) or commands[actor_owner]
                     )
@@ -146,6 +170,7 @@ def run_offline_match(
             stopped=should_stop(),
             decisions=decisions,
             model_actions=actions,
+            forced_plays=forced_actions,
             rejected_actions=rejected,
         )
         (artifact_dir / "result.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
@@ -172,6 +197,10 @@ def main(argv=None) -> int:
     parser.add_argument("--speed", type=float, default=1.0)
     parser.add_argument("--deterministic", action="store_true")
     parser.add_argument("--artifact-dir", type=Path, required=True)
+    # Ticks are 50 ms: opening fallback 300 = 15 s, stall guard 100 = 5 s at full elixir.
+    parser.add_argument("--opening-fallback-tick", type=int, default=300)
+    parser.add_argument("--stall-ticks", type=int, default=100)
+    parser.add_argument("--no-forced-plays", action="store_true")
     args = parser.parse_args(argv)
     config = json.loads(args.match_config.read_text(encoding="utf-8"))
     for key in ("deck0", "deck1", "deck0_form_availability", "deck1_form_availability"):
@@ -192,6 +221,8 @@ def main(argv=None) -> int:
         artifact_dir=args.artifact_dir,
         should_stop=lambda: (args.artifact_dir / "stop").exists(),
         on_ready=ready,
+        opening_fallback_tick=None if args.no_forced_plays else args.opening_fallback_tick,
+        stall_ticks=None if args.no_forced_plays else args.stall_ticks,
     )
     print(json.dumps(result), flush=True)
     return 0

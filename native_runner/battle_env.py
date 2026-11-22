@@ -111,6 +111,35 @@ from .semantic_subset import (
 )
 from .timeline import GameModeTimelineV1, load_game_mode_timeline
 
+_UNKNOWN_EVOLUTIONS_WARNED: set[tuple[int, int]] = set()
+
+# Evolutions that are live in the Null's Royale 16.635.x content but absent from
+# the frozen 15.535.86 policy contract (spells_evolved.csv rows with NotInUse
+# empty that the catalog has no EvolutionSpec for). Matches may enable them
+# (form-availability bit 1): the native engine then runs the real evolution,
+# while the frozen checkpoints observe and play the card as its base form.
+RUNTIME_ONLY_EVOLUTIONS: dict[int, str] = {
+    26000085: "ElectroGiant_EV1",
+}
+
+
+def _policy_form_availability(deck: Sequence[int], forms: Sequence[int]) -> tuple[int, ...]:
+    """Form masks as the frozen policy contract sees them (runtime-only evolution bits removed)."""
+    return tuple(
+        int(mask) & ~1 if int(card_id) in RUNTIME_ONLY_EVOLUTIONS else int(mask)
+        for card_id, mask in zip(deck, forms, strict=True)
+    )
+
+
+def _warn_unknown_evolution_once(base_card_id: int, form_card_id: int) -> None:
+    key = (base_card_id, form_card_id)
+    if key not in _UNKNOWN_EVOLUTIONS_WARNED:
+        _UNKNOWN_EVOLUTIONS_WARNED.add(key)
+        import sys
+
+        print(f"[battle_env] ignoring evolution form {form_card_id} of card {base_card_id}: "
+              "not in the frozen policy card contract", file=sys.stderr, flush=True)
+
 
 TICKS_PER_SECOND = 20
 TICK_MS = 50
@@ -813,10 +842,14 @@ class BattleEnvV1:
 
         try:
             self.semantic_subset_contract.assert_deck(
-                match.deck0, form_availability=match.deck0_form_availability, label="deck0"
+                match.deck0,
+                form_availability=_policy_form_availability(match.deck0, match.deck0_form_availability),
+                label="deck0",
             )
             self.semantic_subset_contract.assert_deck(
-                match.deck1, form_availability=match.deck1_form_availability, label="deck1"
+                match.deck1,
+                form_availability=_policy_form_availability(match.deck1, match.deck1_form_availability),
+                label="deck1",
             )
         except SemanticSubsetError as error:
             raise BattleEnvError(str(error)) from error
@@ -1648,6 +1681,9 @@ class BattleEnvV1:
             form_code = 1
         else:
             form_code = native_form_code
+        if form_code == 1 and effective_card_id in RUNTIME_ONLY_EVOLUTIONS:
+            # Live 16.635 evolution outside the frozen contract: the policy sees the base form.
+            form_code = 0
         if owner is not None and owner not in (0, 1):
             raise BattleEnvError("native policy identity has an invalid owner")
         episode_form_mask = self._episode_form_mask(owner, effective_card_id) if owner is not None else None
@@ -1747,8 +1783,14 @@ class BattleEnvV1:
                 form_card_id = int(form_id)
                 base_card_id = int(evolution.card_id)
                 spec = self.card_specs.get(base_card_id)
-                if spec is None or spec.evolution is None:
+                if spec is None:
                     raise BattleEnvError("native evolution form has no policy base-card contract")
+                if spec.evolution is None:
+                    # 16.635.x evolutions (e.g. ElectroGiant_EV1) are not part of the
+                    # frozen 15.535.86 policy contract. Map the evolved form to its
+                    # base card so evolved units and plays resolve to a known card;
+                    # the frozen checkpoints see it as the base form.
+                    _warn_unknown_evolution_once(base_card_id, form_card_id)
                 previous = aliases.get(form_card_id)
                 if previous is not None and previous != base_card_id:
                     raise BattleEnvError("native form card maps to multiple base card identities")
@@ -4277,7 +4319,7 @@ class BattleEnvV1:
                 source_fields=sources,
                 observed_tick=linked.observed_tick,
                 notes=(
-                    "libg+0xf38a68 TLS deployment context linked directly to the spawn hook",
+                    "libg+0x10959ec TLS deployment context linked directly to the spawn hook",
                     "no tick or position association was used",
                     "deck slot, packed card parameter, and cost remain owner-private",
                 ),

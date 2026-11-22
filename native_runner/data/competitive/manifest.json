@@ -35,7 +35,7 @@
     },
     "runtime": {
       "bytes": 64250,
-      "sha256": "2b290cc5c25ce3e2a44cd3e931351b1241078e05084271a27659fab5d5b08fb4"
+      "sha256": "5d43ee13ed1186a1d87ed52c514c81da6320ea9ee39aeee2b66150976f4e95e4"
     }
   },
   "scope": "normal-mode-only",

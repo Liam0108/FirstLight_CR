@@ -9,17 +9,17 @@
 namespace cr_tower_troop_runtime {
 
 inline constexpr char kSchema[] = "native-tower-troop-runtime.v1";
-inline constexpr char kExactLibgSha256[] = "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783";
-inline constexpr char kExactLibgBuildId[] = "90e6f351f0dec4a28b494c3812d2629fd45d5a83";
+inline constexpr char kExactLibgSha256[] = "0b580222e5a3502cf153bb5e6297ec32d2b154b605b777c74873dd75722e4eaa";
+inline constexpr char kExactLibgBuildId[] = "179ac4bd38c205bc5041d372a79f1c2f929b1c30";
 
 inline constexpr std::size_t kRuntimeStaticDataOffset = 0x18;
 inline constexpr std::size_t kRuntimeSourceObjectOffset = 0x20;
 
 // ActionBurstAttack: Dagger Duchess charge inventory and reload accumulator.
-inline constexpr std::uintptr_t kDaggerInitOffset = 0x00f43f10;
-inline constexpr std::uintptr_t kDaggerTickOffset = 0x00f43f3c;
-inline constexpr std::uintptr_t kDaggerRuntimeVtableOffset = 0x0189e0c8;
-inline constexpr std::uintptr_t kDaggerStaticVtableOffset = 0x0188c3f8;
+inline constexpr std::uintptr_t kDaggerInitOffset = 0x010a1270;
+inline constexpr std::uintptr_t kDaggerTickOffset = 0x010a129c;
+inline constexpr std::uintptr_t kDaggerRuntimeVtableOffset = 0x01a51810;
+inline constexpr std::uintptr_t kDaggerStaticVtableOffset = 0x01a3f6a8;
 inline constexpr std::size_t kDaggerChargeCountOffset = 0x60;
 inline constexpr std::size_t kDaggerRechargeElapsedMsOffset = 0x64;
 inline constexpr std::size_t kDaggerMaxChargeCountOffset = 0xec;
@@ -35,10 +35,10 @@ inline constexpr std::uint8_t kDaggerTickPrologue[16] = {
 // ActionChefTower: delay, contribution accumulator, and pending pancake
 // recipient.  contributionNeeded is stored in static units and multiplied by
 // 20 by the exact native accessor at libg+0xe58e28.
-inline constexpr std::uintptr_t kChefInitOffset = 0x00f47e08;
-inline constexpr std::uintptr_t kChefTickOffset = 0x00f47e3c;
-inline constexpr std::uintptr_t kChefRuntimeVtableOffset = 0x0189e738;
-inline constexpr std::uintptr_t kChefStaticVtableOffset = 0x0188cf78;
+inline constexpr std::uintptr_t kChefInitOffset = 0x010a5378;
+inline constexpr std::uintptr_t kChefTickOffset = 0x010a53ac;
+inline constexpr std::uintptr_t kChefRuntimeVtableOffset = 0x01a51ec0;
+inline constexpr std::uintptr_t kChefStaticVtableOffset = 0x01a40168;
 inline constexpr std::size_t kChefStartDelayRemainingMsOffset = 0x68;
 inline constexpr std::size_t kChefCookingContributionOffset = 0x6c;
 inline constexpr std::size_t kChefTargetHandleOffset = 0x70;

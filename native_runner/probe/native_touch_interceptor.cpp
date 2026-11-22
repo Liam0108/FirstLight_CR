@@ -17,7 +17,7 @@
 namespace {
 
 constexpr const char *kLogTag = "CRNativeTouch";
-constexpr std::uintptr_t kGameAppTouchOffset = 0x013d0be0;
+constexpr std::uintptr_t kGameAppTouchOffset = 0x0156f790;
 constexpr std::uint8_t kGameAppTouchPrologue[16] = {
     0xfd, 0x7b, 0xbc, 0xa9, 0xf8, 0x5f, 0x01, 0xa9, 0xf6, 0x57, 0x02, 0xa9, 0xf4, 0x4f, 0x03, 0xa9,
 };

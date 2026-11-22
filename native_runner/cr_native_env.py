@@ -66,42 +66,42 @@ MAX_PHASE_EVENTS = 4096
 MAX_VISIBILITY_EVENTS = 4096
 MAX_REMAINING_EVENTS = 4096
 PHASE_EVENT_HOOKS = {
-    "attack_start": 0xF23110,
-    "attack_release": 0xF5F100,
-    "effect_apply": 0xF5A2D4,
-    "attack_scale": 0xF5B4AC,
-    "movement_scale": 0xF5B3C8,
-    "effective_movement_speed": 0xF1D004,
-    "movement_delta": 0xF68808,
-    "target_reset": 0xF5C894,
+    "attack_start": 0x1080784,
+    "attack_release": 0x10BCDDC,
+    "effect_apply": 0x10B820C,
+    "attack_scale": 0x10B93E4,
+    "movement_scale": 0x10B9300,
+    "effective_movement_speed": 0x10796F4,
+    "movement_delta": 0x10C6560,
+    "target_reset": 0x10BA8E0,
     # Classic-charge readiness is observed by the generic action dispatcher;
-    # the exact caller return address (0xF68958) disambiguates it from an
+    # the exact caller return address (0x10C66B0) disambiguates it from an
     # ordinary attack start.  It is not emitted by the movement-delta hook.
-    "classic_charge_ready": 0xF23110,
-    "deploy_scale": 0xF5B3C8,
+    "classic_charge_ready": 0x1080784,
+    "deploy_scale": 0x10B9300,
 }
-VISIBILITY_EVENT_HOOKS = {"became_invisible": 0xF5A2D4, "became_visible": 0xF5A578}
-VISIBILITY_EVENT_CALLERS = {"became_invisible": 0xF59EAC, "became_visible": 0xF59308}
+VISIBILITY_EVENT_HOOKS = {"became_invisible": 0x10B820C, "became_visible": 0x10B84B0}
+VISIBILITY_EVENT_CALLERS = {"became_invisible": 0x10B7DD0, "became_visible": 0x10B7220}
 REMAINING_EVENT_HOOKS = {
-    "area_create": {0xF25B8C},
-    "area_expire": {0xF25D90},
-    "resource_delta": {0xF3BA4C, 0xF3B3D4},
-    "tower_aggro_acquire": {0xF5C894},
-    "tower_aggro_change": {0xF5C894},
-    "tower_aggro_lose": {0xF5C894},
-    "tower_activate": {0xF23110},
-    "lifetime_spawn": {0xF25B8C},
-    "lifetime_despawn": {0xF25D90},
-    "transform": {0xE58638},
-    "spawn_attach": {0xF19314},
-    "area_damage_eligibility": {0xF1CB90},
-    "area_relation_parent": {0xF25B8C},
-    "area_relation_follow": {0xF25B8C},
-    "area_relation_related": {0xF25B8C},
+    "area_create": {0x1083358},
+    "area_expire": {0x108355C},
+    "resource_delta": {0x1098B8C, 0x1098510},
+    "tower_aggro_acquire": {0x10BA8E0},
+    "tower_aggro_change": {0x10BA8E0},
+    "tower_aggro_lose": {0x10BA8E0},
+    "tower_activate": {0x1080784},
+    "lifetime_spawn": {0x1083358},
+    "lifetime_despawn": {0x108355C},
+    "transform": {0xF93844},
+    "spawn_attach": {0xFFFFFFFFFFFFFFFF},
+    "area_damage_eligibility": {0x1079120},
+    "area_relation_parent": {0x1083358},
+    "area_relation_follow": {0x1083358},
+    "area_relation_related": {0x1083358},
     # Both producers expose the same exact area->child edge.  The AEO tick
     # path owns area_tick_nested_spawn; direct ActionSpawnToLocation mode 1
     # owns action_spawn_to_location (used by Graveyard).
-    "area_action_spawn": {0xF143A8, 0xE7B864},
+    "area_action_spawn": {0x1070D18, 0xFB7E64},
 }
 COMBAT_EVENT_KINDS = frozenset(
     {
@@ -122,20 +122,20 @@ COMBAT_EVENT_KINDS = frozenset(
 )
 COMBAT_EVENT_POOLS = frozenset({"none", "hitpoints", "built_in_shield", "buff_shield"})
 COMBAT_TERMINAL_REASONS = frozenset({"none", "object_impact", "source_lost", "nonimpact_cancel", "unknown"})
-COMBAT_CONSUME_CARD_HOOK_OFFSET = 0xF38A68
+COMBAT_CONSUME_CARD_HOOK_OFFSET = 0x10959EC
 COMBAT_HOOK_OFFSETS = {
-    "damage": {0xF642C4},
-    "death": {0xF642C4},
-    "heal": {0xF64D14},
-    "spawn": {0xF25B8C},
-    "projectile_spawn": {0xF25B8C},
-    "despawn": {0xF25D90},
-    "shield_damage": {0xF642C4},
-    "shield_break": {0xF642C4},
-    "projectile_impact": {0xF2981C},
-    "projectile_deflect": {0xF1629C},
-    "projectile_expire": {0xF2A11C, 0xF2A148},
-    "projectile_terminal": {0xF28470},
+    "damage": {0x10C1E50},
+    "death": {0x10C1E50},
+    "heal": {0x10C29A4},
+    "spawn": {0x1083358},
+    "projectile_spawn": {0x1083358},
+    "despawn": {0x108355C},
+    "shield_damage": {0x10C1E50},
+    "shield_break": {0x10C1E50},
+    "projectile_impact": {0x10870FC},
+    "projectile_deflect": {0x1071F14},
+    "projectile_expire": {0x108794C, 0x1087978},
+    "projectile_terminal": {0x1085D24},
     "card_play": {COMBAT_CONSUME_CARD_HOOK_OFFSET},
 }
 MIRROR_CARD_GLOBAL_ID = 28_000_006
@@ -865,14 +865,14 @@ def _validate_combat_events(
             raise RunnerError(f"{label}.hookOffset is invalid for {kind}")
         caller_offset = event_check.optional_int("callerOffset", minimum=1)
         allowed_callers = {
-            # 0xF12D54 is the exact return after the action-vtable +0x118
-            # dispatch in function 0xF12C44.  Native BarbLogHero healing uses
+            # 0x106F900 is the exact return after the action-vtable +0x118
+            # dispatch in function 0x106F7F0.  Native BarbLogHero healing uses
             # this generic action path; retaining the single return address
             # keeps arbitrary heal callers fail-closed.
-            "heal": {0xF12D54, 0xF20DF0, 0xF2B374, 0xF319A4},
-            "spawn": {0xF2FFFC},
-            "projectile_spawn": {0xF2FFFC},
-            "projectile_expire": {0xF2A120, 0xF2A14C},
+            "heal": {0x106F900, 0xFFFFFFFFFFFFFFFF, 0x1089410, 0x108F1AC},
+            "spawn": {0x108D87C},
+            "projectile_spawn": {0x108D87C},
+            "projectile_expire": {0x1087950, 0x108797C},
             "projectile_terminal": None,
         }
         if caller_offset is not None:
@@ -989,7 +989,7 @@ def _validate_combat_events(
             if set(provenance) != {"kind", "hookOffset", "sourceDataGlobalId"}:
                 raise RunnerError(f"{label}.spawnProvenance fields do not match the v1 schema")
             provenance_kind = provenance.get("kind")
-            expected_provenance_hook = {"area_tick_nested_spawn": 0xF143A8, "action_spawn_to_location": 0xE7B864}.get(
+            expected_provenance_hook = {"area_tick_nested_spawn": 0x1070D18, "action_spawn_to_location": 0xFB7E64}.get(
                 provenance_kind
             )
             if expected_provenance_hook is None:
@@ -1596,9 +1596,9 @@ def _validate_remaining_runtime(
         "completeContext",
     }
     resource_edges = {
-        "periodic": (0xF3BA4C, 0xF1ACD4, 10_000),
-        "death_owner": (0xF3BA4C, 0xF63718, 10_000),
-        "death_opponent": (0xF3B3D4, 0xF63834, 1),
+        "periodic": (0x1098B8C, 0x10775E0, 10_000),
+        "death_owner": (0x1098B8C, 0x10C127C, 10_000),
+        "death_opponent": (0x1098510, 0x10C1398, 1),
     }
 
     def present(fact: Mapping[str, Any]) -> bool:
@@ -1721,7 +1721,7 @@ def _validate_remaining_runtime(
             if (
                 not present(facts["entity"])
                 or object_kind != 3
-                or vtable_offset != 0x189C2E8
+                or vtable_offset != 0x1A4F9A0
                 or (kind == "area_create" and not committed)
                 or caller_offset is not None
             ):
@@ -1731,15 +1731,15 @@ def _validate_remaining_runtime(
                 not present(facts["entity"])
                 or not present(facts["target"])
                 or object_kind != 3
-                or vtable_offset != 0x189C2E8
+                or vtable_offset != 0x1A4F9A0
                 or caller_offset is not None
             ):
                 raise RunnerError(f"{label} area relation is invalid")
         elif kind == "area_action_spawn":
             source_kind = facts["source"].get("objectKind")
             producer_identity_valid = (
-                object_kind == 3 and source_kind == 3 and vtable_offset == 0x189C2E8
-                if hook_offset == 0xF143A8
+                object_kind == 3 and source_kind == 3 and vtable_offset == 0x1A4F9A0
+                if hook_offset == 0x1070D18
                 else object_kind == source_kind and vtable_offset is not None
             )
             if (
@@ -1777,14 +1777,14 @@ def _validate_remaining_runtime(
             ):
                 raise RunnerError(f"{label} tower aggro edge is invalid")
         elif kind == "tower_activate":
-            if not present(facts["entity"]) or caller_offset != 0xF58820 or not result:
+            if not present(facts["entity"]) or caller_offset != 0x10B617C or not result:
                 raise RunnerError(f"{label} tower activation edge is invalid")
         elif kind == "spawn_attach":
             if (
                 not present(facts["entity"])
                 or not present(facts["source"])
                 or not present(facts["target"])
-                or caller_offset != 0xF18FF4
+                or caller_offset != 0xFFFFFFFFFFFFFFFF
                 or not committed
                 or global_ids["configuredDataGlobalId"] != global_ids["dataAfterGlobalId"]
                 or facts["source"].get("nativeObjectId") == facts["target"].get("nativeObjectId")
@@ -2930,7 +2930,7 @@ class NativeClashEnv:
 
             account_id = int(player["accountId"])
             command = {
-                "ct": 86,
+                "ct": 153,  # 16.635.1 renumbered deploy command (15.535.13: 86)
                 "c": {
                     "t": boundary - LIVE_COMMAND_AGE_TICKS,
                     "t2": boundary,
@@ -3177,7 +3177,7 @@ class NativeClashEnv:
             account_id = int(player["accountId"])
             consumption_boundary = max(FIRST_PLAYABLE_TICK, int(before["tick"]))
             command = {
-                "ct": 86,
+                "ct": 153,  # 16.635.1 renumbered deploy command (15.535.13: 86)
                 "c": {
                     "t": consumption_boundary - LIVE_COMMAND_AGE_TICKS,
                     "t2": consumption_boundary,

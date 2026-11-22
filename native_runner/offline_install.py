@@ -65,12 +65,20 @@ def resource_hashes(device, directory=DATA + "/update"):
     return hashes
 
 
+def runtime_update_pins():
+    """Device content pins for the supported engine (16.635.1 port: separate file, the
+    competitive manifest stays byte-identical because its SHA-256 is pinned in code)."""
+    pins = PACKAGE / "runtime_update_pins.json"
+    if pins.exists():
+        return json.loads(pins.read_text(encoding="utf-8"))["source_files"]
+    return json.loads((PACKAGE / "data/competitive/manifest.json").read_text(encoding="utf-8"))["source_files"]
+
+
 def validate_resources(hashes):
     release = supported_engine()
     if hashes.get("fingerprint.json") != release["runtime_fingerprint_sha256"]:
         raise ValueError("First open the unmodified game yourself and finish the supported resource update")
-    manifest = json.loads((PACKAGE / "data/competitive/manifest.json").read_text(encoding="utf-8"))
-    for name, digest in manifest["source_files"].items():
+    for name, digest in runtime_update_pins().items():
         if name.startswith("runtime-update/") and hashes.get(name.removeprefix("runtime-update/")) != digest:
             raise ValueError(f"Device update is incomplete or unsupported: {name}")
 
